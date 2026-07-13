@@ -1,0 +1,477 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+/* ─── Typography ─────────────────────────────────────────── */
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+                 'Apple Color Emoji', 'Segoe UI Emoji';
+
+    /* Expose semantic tokens as Tailwind colors so utilities like
+       `bg-surface`, `text-ink`, `border-border`, `bg-accent` work AND
+       still respond to runtime theme switching (they resolve through
+       the live `var(--*)` tokens defined below). */
+    --color-bg:            var(--bg);
+    --color-surface:       var(--surface);
+    --color-surface-2:     var(--surface-2);
+    --color-surface-3:     var(--surface-3);
+    --color-border:        var(--border);
+    --color-border-2:      var(--border-2);
+    --color-ink:           var(--ink);
+    --color-ink-2:         var(--ink-2);
+    --color-ink-muted:     var(--ink-muted);
+    --color-accent:        var(--accent);
+    --color-accent-2:      var(--accent-2);
+    --color-accent-fg:     var(--accent-fg);
+    --color-accent-subtle: var(--accent-subtle);
+    --color-accent-muted:  var(--accent-muted);
+    --color-accent-emphasis: var(--accent-emphasis);
+    --color-success:       var(--success);
+    --color-warning:       var(--warning);
+    --color-danger:        var(--danger);
+    --color-info:          var(--info);
+}
+
+/* ─── Base color-scheme declaration ─────────────────────── */
+:root { color-scheme: light; }
+[data-dark="true"] { color-scheme: dark; }
+
+/* ═══════════════════════════════════════════════════════════
+   LAYER 1 — PRIMITIVE PALETTE (never use these directly)
+   Per-theme, updated by [data-theme] selectors below.
+   ═══════════════════════════════════════════════════════════ */
+:root {
+    --hue:    262;   /* indigo default */
+    --chroma: 0.24;  /* oklch chroma */
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LAYER 2 — SEMANTIC TOKENS (what components consume)
+   ═══════════════════════════════════════════════════════════ */
+:root {
+    /* ── Surfaces ──────────────────────────────────────────── */
+    --bg:           #f6f7fb;
+    --surface:      #ffffff;
+    --surface-2:    #f0f2f8;
+    --surface-3:    #e8ebf4;
+    --overlay:      rgb(0 0 0 / 0.45);
+
+    /* ── Border ────────────────────────────────────────────── */
+    --border:       #dde1ee;
+    --border-2:     #c8cde2;
+
+    /* ── Ink (text) ────────────────────────────────────────── */
+    --ink:          #141428;
+    --ink-2:        #454570;
+    --ink-muted:    #8a8ab0;
+    --ink-disabled: #b8b8d0;
+
+    /* ── Accent scale (derived from --hue / --chroma) ─────── */
+    --accent:          oklch(50% var(--chroma) var(--hue));
+    --accent-2:        oklch(62% calc(var(--chroma) * 0.85) calc(var(--hue) + 14));
+    --accent-fg:       #ffffff;
+    --accent-subtle:   oklch(96% calc(var(--chroma) * 0.12) var(--hue));
+    --accent-muted:    oklch(88% calc(var(--chroma) * 0.25) var(--hue));
+    --accent-emphasis: oklch(42% var(--chroma) var(--hue));
+    --accent-glow:     oklch(50% var(--chroma) var(--hue) / 0.20);
+
+    /* ── Status colours ────────────────────────────────────── */
+    --success:      #059669;
+    --warning:      #d97706;
+    --danger:       #dc2626;
+    --info:         #0891b2;
+
+    /* ── Shape ─────────────────────────────────────────────── */
+    --radius-xs:    0.25rem;
+    --radius:       0.5rem;
+    --radius-md:    0.625rem;
+    --radius-lg:    0.875rem;
+    --radius-xl:    1.25rem;
+    --radius-full:  9999px;
+
+    /* ── Elevation / Shadow ────────────────────────────────── */
+    --shadow-xs:    0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-sm:    0 1px 4px 0 rgb(0 0 0 / 0.08);
+    --shadow:       0 2px 8px -1px rgb(0 0 0 / 0.10), 0 1px 3px -1px rgb(0 0 0 / 0.06);
+    --shadow-md:    0 4px 16px -2px rgb(0 0 0 / 0.12), 0 2px 6px -2px rgb(0 0 0 / 0.06);
+    --shadow-lg:    0 12px 32px -4px rgb(0 0 0 / 0.14), 0 4px 10px -4px rgb(0 0 0 / 0.08);
+    --shadow-accent:0 4px 16px -2px var(--accent-glow);
+
+    /* ── Spacing rhythm ─────────────────────────────────────── */
+    --space-1:  0.25rem;
+    --space-2:  0.5rem;
+    --space-3:  0.75rem;
+    --space-4:  1rem;
+    --space-6:  1.5rem;
+    --space-8:  2rem;
+    --space-12: 3rem;
+
+    /* ── Motion ─────────────────────────────────────────────── */
+    --ease-out:      cubic-bezier(0.0, 0, 0.2, 1);
+    --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+    --duration-fast: 120ms;
+    --duration:      200ms;
+    --duration-slow: 350ms;
+    --transition:    var(--duration) var(--ease-out);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LAYER 3 — COMPONENT TOKENS
+   ═══════════════════════════════════════════════════════════ */
+:root {
+    /* Inputs */
+    --input-bg:          var(--surface);
+    --input-border:      var(--border);
+    --input-focus:       var(--accent);
+    --input-ring:        var(--accent-glow);
+    --input-placeholder: var(--ink-muted);
+
+    /* Cards */
+    --card-bg:     var(--surface);
+    --card-border: var(--border);
+    --card-shadow: var(--shadow);
+    --card-radius: var(--radius-lg);
+
+    /* Buttons */
+    --btn-primary-bg:     var(--accent);
+    --btn-primary-fg:     var(--accent-fg);
+    --btn-primary-shadow: var(--shadow-accent);
+
+    /* Sidebar / Panel */
+    --panel-bg:     var(--surface);
+    --panel-border: var(--border);
+    --panel-width:  16rem;
+
+    /* Toolbar */
+    --toolbar-bg:     var(--surface);
+    --toolbar-border: var(--border);
+    --toolbar-height: 3.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME DEFINITIONS — set --hue / --chroma; accent scale derives.
+   ═══════════════════════════════════════════════════════════ */
+[data-theme="indigo"], :root {
+    --hue:    262;
+    --chroma: 0.24;
+}
+
+[data-theme="emerald"] {
+    --hue:    162;
+    --chroma: 0.18;
+    --accent: oklch(44% 0.18 162);   /* nudge for AA contrast */
+}
+
+[data-theme="sunset"] {
+    --hue:      30;
+    --chroma:   0.22;
+    --accent:   oklch(56% 0.22 30);
+    --accent-2: oklch(68% 0.20 60);
+}
+
+[data-theme="mono-pro"] {
+    --hue:      300;
+    --chroma:   0.28;
+    --accent:   oklch(22% 0.0 0);
+    --accent-2: oklch(55% 0.28 300);
+    --accent-fg: #ffffff;
+    --accent-subtle: oklch(96% 0.02 0);
+    --accent-glow:   oklch(22% 0.0 0 / 0.15);
+    --bg:  #f9f9f9;
+    --ink: #0d0d0d;
+}
+
+[data-theme="ocean"] {
+    --hue:      230;
+    --chroma:   0.22;
+    --accent-2: oklch(62% 0.18 200);
+    --bg:        #f4f6fb;
+    --surface-2: #eaeff8;
+}
+
+[data-theme="oxblood"] {
+    --hue:      14;
+    --chroma:   0.20;
+    --accent:   oklch(34% 0.20 14);
+    --accent-2: oklch(50% 0.08 60);
+    --bg:        #faf8f5;
+    --surface:   #fffefb;
+    --surface-2: #f2ede7;
+    --border:    #e0d8ce;
+    --ink:       #1c1410;
+    --ink-2:     #4a3f34;
+    --ink-muted: #8a7a6e;
+}
+
+[data-theme="grape"] {
+    --hue:      290;
+    --chroma:   0.30;
+    --accent-2: oklch(62% 0.30 320);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DARK MODE
+   Two valid blocks: a manual override and a system-preference
+   fallback (the latter suppressed when the user forced light).
+   ═══════════════════════════════════════════════════════════ */
+[data-dark="true"] {
+    --bg:        #0e0e1a;
+    --surface:   #16162a;
+    --surface-2: #1e1e38;
+    --surface-3: #262644;
+    --overlay:   rgb(0 0 0 / 0.65);
+
+    --border:    #2c2c50;
+    --border-2:  #3a3a62;
+
+    --ink:          #eaeaf8;
+    --ink-2:        #9090c0;
+    --ink-muted:    #5858a0;
+    --ink-disabled: #3a3a60;
+
+    --accent:          oklch(62% calc(var(--chroma) * 0.85) var(--hue));
+    --accent-subtle:   oklch(20% calc(var(--chroma) * 0.20) var(--hue));
+    --accent-muted:    oklch(35% calc(var(--chroma) * 0.30) var(--hue));
+    --accent-emphasis: oklch(75% calc(var(--chroma) * 0.70) var(--hue));
+    --accent-glow:     oklch(62% var(--chroma) var(--hue) / 0.25);
+
+    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.25);
+    --shadow-sm: 0 1px 4px 0 rgb(0 0 0 / 0.30);
+    --shadow:    0 2px 8px -1px rgb(0 0 0 / 0.40);
+    --shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.45);
+    --shadow-lg: 0 12px 32px -4px rgb(0 0 0 / 0.50);
+
+    color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-dark="false"]) {
+        --bg:        #0e0e1a;
+        --surface:   #16162a;
+        --surface-2: #1e1e38;
+        --surface-3: #262644;
+        --overlay:   rgb(0 0 0 / 0.65);
+
+        --border:    #2c2c50;
+        --border-2:  #3a3a62;
+
+        --ink:          #eaeaf8;
+        --ink-2:        #9090c0;
+        --ink-muted:    #5858a0;
+        --ink-disabled: #3a3a60;
+
+        --accent:          oklch(62% calc(var(--chroma) * 0.85) var(--hue));
+        --accent-subtle:   oklch(20% calc(var(--chroma) * 0.20) var(--hue));
+        --accent-muted:    oklch(35% calc(var(--chroma) * 0.30) var(--hue));
+        --accent-emphasis: oklch(75% calc(var(--chroma) * 0.70) var(--hue));
+        --accent-glow:     oklch(62% var(--chroma) var(--hue) / 0.25);
+
+        --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.25);
+        --shadow-sm: 0 1px 4px 0 rgb(0 0 0 / 0.30);
+        --shadow:    0 2px 8px -1px rgb(0 0 0 / 0.40);
+        --shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.45);
+        --shadow-lg: 0 12px 32px -4px rgb(0 0 0 / 0.50);
+
+        color-scheme: dark;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLOBAL BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+body {
+    background-color: var(--bg);
+    color: var(--ink-2);
+    font-size: 0.9375rem;   /* 15px */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Alpine: hide components until initialised */
+[x-cloak] { display: none !important; }
+
+/* Smooth theme transitions (only when the class is toggled on) */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+    transition: background-color var(--duration-slow) var(--ease-out),
+                border-color var(--duration-slow) var(--ease-out),
+                color var(--duration-fast) var(--ease-out) !important;
+}
+
+/* Focus ring — consistent, accessible */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+}
+
+/* Scrollbar — subtle, on-brand */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: var(--border-2);
+    border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--ink-muted); }
+
+/* Respect reduced-motion: neutralise transitions & animations */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE STYLES — scoped by [data-table-style] on a wrapper.
+   ═══════════════════════════════════════════════════════════ */
+.doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;   /* 14px */
+}
+
+.doc-table th {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-align: left;
+    white-space: nowrap;
+    padding: 0.5rem 0.75rem;
+    color: var(--ink);
+}
+
+.doc-table td {
+    padding: 0.4375rem 0.75rem;
+    vertical-align: top;
+    color: var(--ink-2);
+}
+
+.doc-table tr { transition: background-color var(--duration-fast) var(--ease-out); }
+
+/* Number / date columns align right, with aligned figures */
+.doc-table td.align-right,
+.doc-table th.align-right {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 1. Clean (default) */
+[data-table-style="clean"] .doc-table thead tr {
+    border-bottom: 2px solid var(--border);
+}
+[data-table-style="clean"] .doc-table tbody tr:nth-child(even) {
+    background-color: var(--surface-2);
+}
+[data-table-style="clean"] .doc-table tbody tr:hover {
+    background-color: var(--surface-3);
+}
+
+/* 2. Ruled */
+[data-table-style="ruled"] .doc-table thead tr {
+    border-bottom: 2px solid var(--accent-muted);
+}
+[data-table-style="ruled"] .doc-table tbody tr {
+    border-bottom: 1px solid var(--border);
+}
+[data-table-style="ruled"] .doc-table tbody tr:last-child {
+    border-bottom: none;
+}
+[data-table-style="ruled"] .doc-table tbody tr:hover {
+    background-color: var(--accent-subtle);
+}
+
+/* 3. Boxed */
+[data-table-style="boxed"] .doc-table th,
+[data-table-style="boxed"] .doc-table td {
+    border: 1px solid var(--border);
+}
+[data-table-style="boxed"] .doc-table thead th {
+    border-color: var(--border-2);
+    background-color: var(--surface-2);
+}
+[data-table-style="boxed"] .doc-table tbody tr:hover td {
+    background-color: var(--accent-subtle);
+}
+
+/* 4. Striped */
+[data-table-style="striped"] .doc-table thead tr {
+    border-bottom: 2px solid var(--border);
+}
+[data-table-style="striped"] .doc-table tbody tr:nth-child(odd) {
+    background-color: var(--accent-subtle);
+}
+[data-table-style="striped"] .doc-table tbody tr:hover {
+    background-color: var(--accent-muted);
+}
+
+/* 5. Shaded Header */
+[data-table-style="shaded-header"] .doc-table thead tr {
+    background-color: var(--accent);
+    color: var(--accent-fg);
+    border-bottom: none;
+}
+[data-table-style="shaded-header"] .doc-table thead th {
+    color: var(--accent-fg);
+}
+[data-table-style="shaded-header"] .doc-table tbody tr:nth-child(even) {
+    background-color: var(--surface-2);
+}
+[data-table-style="shaded-header"] .doc-table tbody tr:hover {
+    background-color: var(--surface-3);
+}
+
+/* Shared: summary / tfoot row */
+.doc-table tfoot tr td {
+    border-top: 2px solid var(--accent-muted);
+    font-weight: 700;
+    color: var(--ink);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PRINT — always neutral; only letterhead accent survives.
+   ═══════════════════════════════════════════════════════════ */
+@media print {
+    :root {
+        --bg:        #ffffff !important;
+        --surface:   #ffffff !important;
+        --surface-2: #f4f4f4 !important;
+        --surface-3: #ebebeb !important;
+        --border:    #cccccc !important;
+        --border-2:  #aaaaaa !important;
+        --ink:       #000000 !important;
+        --ink-2:     #222222 !important;
+        --ink-muted: #555555 !important;
+    }
+
+    @page {
+        size: A4 portrait;
+        margin: 12mm 15mm 15mm 15mm;
+    }
+
+    body {
+        background: #ffffff;
+        color: #000000;
+        font-size: 10pt;
+        line-height: 1.45;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print { display: none !important; }
+    .print-only { display: block !important; }
+
+    thead { display: table-header-group; }
+    tfoot { display: table-footer-group; }
+    tr    { break-inside: avoid; page-break-inside: avoid; }
+
+    .doc-table { font-size: 9pt; }
+    .doc-table th,
+    .doc-table td { padding: 4pt 6pt; }
+
+    * { box-shadow: none !important; }
+}
