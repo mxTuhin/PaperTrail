@@ -484,7 +484,7 @@
 
     {{-- ══════════ FOOTER ══════════ --}}
     <footer class="py-10 border-t border-slate-200/60 text-center text-xs text-slate-400 bg-white space-y-3">
-        <p>Copyright © 2026 PaperTrail | Crafted with ⚡ by Tuhin | All rights reserved for all type of Information</p>
+        <p>Copyright © 2026 PaperTrail | Crafted with ⚡ by <a href="https://mxtuhin.ninja/" target="_blank" rel="noopener noreferrer" class="text-indigo-500 hover:text-indigo-600 hover:underline transition-colors">Tuhin</a> | All rights reserved for all type of Information</p>
         <p><a href="{{ route('privacy') }}" class="underline hover:text-indigo-600 transition-colors font-mono uppercase text-[9px] tracking-wider font-bold">Privacy Policy</a></p>
     </footer>
 
