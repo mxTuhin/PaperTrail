@@ -33,9 +33,9 @@
     --color-info:          var(--info);
 }
 
-/* ─── Base color-scheme declaration ─────────────────────── */
-:root { color-scheme: light; }
-[data-dark="true"] { color-scheme: dark; }
+/* ─── The app is always light — never follow the OS dark scheme.
+   `only light` also forces native form controls to render light. ─── */
+:root { color-scheme: only light; }
 
 /* ═══════════════════════════════════════════════════════════
    LAYER 1 — PRIMITIVE PALETTE (never use these directly)
@@ -210,72 +210,7 @@
     --accent-2: oklch(62% 0.30 320);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   DARK MODE
-   Two valid blocks: a manual override and a system-preference
-   fallback (the latter suppressed when the user forced light).
-   ═══════════════════════════════════════════════════════════ */
-[data-dark="true"] {
-    --bg:        #0e0e1a;
-    --surface:   #16162a;
-    --surface-2: #1e1e38;
-    --surface-3: #262644;
-    --overlay:   rgb(0 0 0 / 0.65);
-
-    --border:    #2c2c50;
-    --border-2:  #3a3a62;
-
-    --ink:          #eaeaf8;
-    --ink-2:        #9090c0;
-    --ink-muted:    #5858a0;
-    --ink-disabled: #3a3a60;
-
-    --accent:          oklch(62% calc(var(--chroma) * 0.85) var(--hue));
-    --accent-subtle:   oklch(20% calc(var(--chroma) * 0.20) var(--hue));
-    --accent-muted:    oklch(35% calc(var(--chroma) * 0.30) var(--hue));
-    --accent-emphasis: oklch(75% calc(var(--chroma) * 0.70) var(--hue));
-    --accent-glow:     oklch(62% var(--chroma) var(--hue) / 0.25);
-
-    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.25);
-    --shadow-sm: 0 1px 4px 0 rgb(0 0 0 / 0.30);
-    --shadow:    0 2px 8px -1px rgb(0 0 0 / 0.40);
-    --shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.45);
-    --shadow-lg: 0 12px 32px -4px rgb(0 0 0 / 0.50);
-
-    color-scheme: dark;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root:not([data-dark="false"]) {
-        --bg:        #0e0e1a;
-        --surface:   #16162a;
-        --surface-2: #1e1e38;
-        --surface-3: #262644;
-        --overlay:   rgb(0 0 0 / 0.65);
-
-        --border:    #2c2c50;
-        --border-2:  #3a3a62;
-
-        --ink:          #eaeaf8;
-        --ink-2:        #9090c0;
-        --ink-muted:    #5858a0;
-        --ink-disabled: #3a3a60;
-
-        --accent:          oklch(62% calc(var(--chroma) * 0.85) var(--hue));
-        --accent-subtle:   oklch(20% calc(var(--chroma) * 0.20) var(--hue));
-        --accent-muted:    oklch(35% calc(var(--chroma) * 0.30) var(--hue));
-        --accent-emphasis: oklch(75% calc(var(--chroma) * 0.70) var(--hue));
-        --accent-glow:     oklch(62% var(--chroma) var(--hue) / 0.25);
-
-        --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.25);
-        --shadow-sm: 0 1px 4px 0 rgb(0 0 0 / 0.30);
-        --shadow:    0 2px 8px -1px rgb(0 0 0 / 0.40);
-        --shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.45);
-        --shadow-lg: 0 12px 32px -4px rgb(0 0 0 / 0.50);
-
-        color-scheme: dark;
-    }
-}
+/* Dark mode intentionally removed — PaperTrail is always a clean, white UI. */
 
 /* ═══════════════════════════════════════════════════════════
    GLOBAL BASE STYLES

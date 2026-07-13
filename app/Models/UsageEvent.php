@@ -20,4 +20,17 @@ class UsageEvent extends Model
             'col_count' => 'integer',
         ];
     }
+
+    /**
+     * Get usage totals grouped by event type.
+     *
+     * @return array<string, int>
+     */
+    public static function totals(): array
+    {
+        return static::selectRaw('event, count(*) as count')
+            ->groupBy('event')
+            ->pluck('count', 'event')
+            ->toArray();
+    }
 }

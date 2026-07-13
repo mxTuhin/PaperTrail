@@ -50,18 +50,17 @@
         (function () {
             const root = document.documentElement;
             root.setAttribute('data-theme', localStorage.getItem('pt-theme') || 'indigo');
-            if (localStorage.getItem('pt-dark') === 'true') {
-                root.setAttribute('data-dark', 'true');
-            }
             const accent = localStorage.getItem('pt-custom-accent');
             if (accent) {
                 root.style.setProperty('--accent', accent);
                 root.style.setProperty('--accent-subtle', accent + '18');
             }
-            if (localStorage.getItem('pt-orientation') === 'landscape') {
+            const orientation = localStorage.getItem('pt-orientation') || 'portrait';
+            root.setAttribute('data-orientation', orientation);
+            if (orientation === 'landscape') {
                 const s = document.createElement('style');
                 s.id = 'pt-orientation-style';
-                s.textContent = '@page { size: A4 landscape; }';
+                s.textContent = '@media print { @page { size: A4 landscape; } }';
                 document.head.appendChild(s);
             }
         })();
@@ -69,6 +68,9 @@
 
     <!-- Alpine store -->
     @include('partials.theme-store')
+
+    <!-- PaperTrail engine: stores + helpers (must run before Alpine boots) -->
+    <script src="{{ asset('js/papertrail.js') }}"></script>
 
     <!-- Client-side libraries (loaded asynchronously from CDN) -->
     <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>

@@ -10,4 +10,9 @@ class AppController extends Controller
     {
         return view('app.index');
     }
+
+    public function print(): View
+    {
+        return view('app.print');
+    }
 }

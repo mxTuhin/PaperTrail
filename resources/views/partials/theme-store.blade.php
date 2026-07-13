@@ -13,7 +13,6 @@
     document.addEventListener('alpine:init', () => {
         Alpine.store('theme', {
             current:      localStorage.getItem('pt-theme')         || 'indigo',
-            dark:         localStorage.getItem('pt-dark')          === 'true',
             tableStyle:   localStorage.getItem('pt-table-style')   || 'clean',
             orientation:  localStorage.getItem('pt-orientation')   || 'portrait',
             customAccent: localStorage.getItem('pt-custom-accent') || null,
@@ -55,14 +54,6 @@
                 document.documentElement.style.setProperty('--accent-subtle', hex + '18');
             },
 
-            toggleDark() {
-                document.documentElement.classList.add('theme-transitioning');
-                this.dark = !this.dark;
-                localStorage.setItem('pt-dark', this.dark);
-                document.documentElement.setAttribute('data-dark', this.dark);
-                setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 400);
-            },
-
             setTableStyle(style) {
                 this.tableStyle = style;
                 localStorage.setItem('pt-table-style', style);
@@ -71,6 +62,7 @@
             setOrientation(value) {
                 this.orientation = value;
                 localStorage.setItem('pt-orientation', value);
+                document.documentElement.setAttribute('data-orientation', value);
                 let styleTag = document.getElementById('pt-orientation-style');
                 if (!styleTag) {
                     styleTag = document.createElement('style');
@@ -78,8 +70,8 @@
                     document.head.appendChild(styleTag);
                 }
                 styleTag.textContent = value === 'landscape'
-                    ? '@page { size: A4 landscape; }'
-                    : '@page { size: A4 portrait; }';
+                    ? '@media print { @page { size: A4 landscape; } }'
+                    : '@media print { @page { size: A4 portrait; } }';
             },
         });
     });
