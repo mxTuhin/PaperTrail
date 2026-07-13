@@ -38,8 +38,8 @@ Navigate to your projects directory and install all requirements.
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/papertrail.git
-cd papertrail
+git clone https://github.com/mxTuhin/PaperTrail.git
+cd PaperTrail
 ```
 
 ### 2. Automatic One-Click Setup
@@ -95,7 +95,8 @@ php artisan tinker --execute '$user = App\Models\User::where("email", "admin@pap
 
 ## License
 
-This project is licensed under the **PolyForm Noncommercial License 1.0.0**. 
+This project is licensed under a proprietary **End User License Agreement (EULA) — Personal Use Only**.
 
-- **Personal Use:** Free to use, copy, modify, and distribute for personal, educational, research, and non-profit organization purposes.
-- **Commercial Use:** Commercial use, distribution, or monetization is strictly prohibited. For commercial licensing inquiries, please contact the repository owner.
+- **Personal Use:** Free to install and run on your own personal devices for private, non-commercial, and educational purposes.
+- **No Distribution:** Sharing, copying, publishing, or distributing this software to any third party is strictly prohibited.
+- **No Commercial Use:** Using this software for business operations, revenue generation, or professional services is strictly prohibited.
