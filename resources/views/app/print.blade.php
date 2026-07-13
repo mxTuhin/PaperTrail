@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="indigo">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,6 +59,7 @@
             @page {
                 margin: 10mm;
             }
+
             .a4-print-sheet {
                 padding: 0 !important;
                 margin: 0 !important;
@@ -65,6 +67,7 @@
                 box-shadow: none !important;
                 width: 100% !important;
             }
+
             .no-print {
                 display: none !important;
             }
@@ -79,8 +82,9 @@
                 padding: 10mm;
                 border: 1px solid var(--border);
                 border-radius: var(--radius-xs);
-                box-shadow: 0 4px 20px -8px rgba(0,0,0,0.05);
+                box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.05);
             }
+
             :root[data-orientation="landscape"] .a4-print-sheet {
                 max-width: 297mm;
                 min-height: 210mm;
@@ -94,10 +98,12 @@
         }
     </style>
 </head>
+
 <body class="antialiased" x-data="printController()" x-init="initPrint()" :data-table-style="tableStyle">
 
     <!-- ══════════ FLOATING PREVIEW CONTROLLER TOOLBAR (no-print) ══════════ -->
-    <div class="no-print bg-[#141428] text-white py-3 px-6 flex items-center justify-between border-b border-slate-800 sticky top-0 z-50">
+    <div
+        class="no-print bg-[#141428] text-white py-3 px-6 flex items-center justify-between border-b border-slate-800 sticky top-0 z-50">
         <div class="flex items-center gap-2">
             <span class="font-mono text-xs uppercase tracking-[0.2em] font-semibold text-slate-300">
                 PAPER/TRAIL <span class="text-slate-500 font-normal">| Print Preview</span>
@@ -108,26 +114,28 @@
             <div class="flex items-center gap-2">
                 <span class="text-[11px] font-mono uppercase tracking-wider text-slate-400">Layout:</span>
                 <div class="inline-flex rounded-md border border-slate-700 overflow-hidden bg-slate-900 p-0.5">
-                    <button type="button" @click="toggleOrientation('portrait')" 
-                            :class="orientation === 'portrait' ? 'bg-[#3b3c95] text-white' : 'text-slate-400 hover:text-white'"
-                            class="px-2.5 py-1 text-[11px] font-semibold rounded transition-all">
+                    <button type="button" @click="toggleOrientation('portrait')"
+                        :class="orientation === 'portrait' ? 'bg-[#3b3c95] text-white' : 'text-slate-400 hover:text-white'"
+                        class="px-2.5 py-1 text-[11px] font-semibold rounded transition-all">
                         Portrait
                     </button>
-                    <button type="button" @click="toggleOrientation('landscape')" 
-                            :class="orientation === 'landscape' ? 'bg-[#3b3c95] text-white' : 'text-slate-400 hover:text-white'"
-                            class="px-2.5 py-1 text-[11px] font-semibold rounded transition-all">
+                    <button type="button" @click="toggleOrientation('landscape')"
+                        :class="orientation === 'landscape' ? 'bg-[#3b3c95] text-white' : 'text-slate-400 hover:text-white'"
+                        class="px-2.5 py-1 text-[11px] font-semibold rounded transition-all">
                         Landscape
                     </button>
                 </div>
             </div>
 
             <!-- Print Action -->
-            <button @click="window.print()" class="bg-[#3b3c95] hover:bg-[#2e2f7a] text-white px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm active:scale-[0.98]">
+            <button @click="window.print()"
+                class="bg-[#3b3c95] hover:bg-[#2e2f7a] text-white px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm active:scale-[0.98]">
                 🖨️ Print
             </button>
 
             <!-- Close tab -->
-            <button @click="window.close()" class="text-xs text-slate-400 hover:text-white font-medium transition-colors">
+            <button @click="window.close()"
+                class="text-xs text-slate-400 hover:text-white font-medium transition-colors">
                 ✕ Close Preview
             </button>
         </div>
@@ -135,23 +143,30 @@
 
     <!-- Print Simulator Sheet -->
     <div class="a4-print-sheet" id="print-area">
-        
+
         <!-- ══════════ EXACT DYNAMIC LETTERHEAD BLOCKS (Matches app page view) ══════════ -->
         <div x-show="showLetterhead" class="mb-6">
-            
+
             <!-- 1. Layout: split-header -->
-            <div class="border-b-2 border-[#3b3c95] pb-6 mb-8 flex justify-between items-start" x-show="letterhead.layout === 'split-header'">
+            <div class="border-b-2 border-[#3b3c95] pb-6 mb-8 flex justify-between items-start"
+                x-show="letterhead.layout === 'split-header'">
                 <div class="space-y-1 flex items-center gap-4">
-                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0"
+                        :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
                     <div>
-                        <h2 class="text-xl font-bold tracking-tight text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
-                        <p class="text-xs text-slate-500 whitespace-pre-line leading-relaxed" x-text="letterhead.address || 'Address information'"></p>
+                        <h2 class="text-xl font-bold tracking-tight text-slate-900"
+                            x-text="letterhead.companyName || 'Company Name'"></h2>
+                        <p class="text-xs text-slate-500 whitespace-pre-line leading-relaxed"
+                            x-text="letterhead.address || 'Address information'"></p>
                     </div>
                 </div>
                 <div class="text-right space-y-1 font-mono">
-                    <h3 class="text-sm font-bold text-[#3b3c95] tracking-wider uppercase" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
-                    <p class="text-xs text-slate-500" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
-                    <p class="text-xs text-slate-500" x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
+                    <h3 class="text-sm font-bold text-[#3b3c95] tracking-wider uppercase"
+                        x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <p class="text-xs text-slate-500" x-show="letterhead.datePosition === 'top'"
+                        x-text="'Date: ' + docDate()"></p>
+                    <p class="text-xs text-slate-500" x-show="letterhead.statementFor"
+                        x-text="'For: ' + letterhead.statementFor"></p>
                 </div>
             </div>
 
@@ -161,7 +176,8 @@
                     <img :src="letterhead.logoBase64" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
                 </div>
                 <h2 class="text-lg font-bold" x-text="letterhead.companyName"></h2>
-                <p class="text-[10px] text-slate-500" x-text="letterhead.docTitle + (letterhead.datePosition === 'top' ? ' · ' + docDate() : '')"></p>
+                <p class="text-[10px] text-slate-500"
+                    x-text="letterhead.docTitle + (letterhead.datePosition === 'top' ? ' · ' + docDate() : '')"></p>
             </div>
 
             <!-- 3. Layout: centered -->
@@ -169,79 +185,106 @@
                 <div class="flex items-center justify-center gap-3 mb-2" x-show="letterhead.logoBase64">
                     <img :src="letterhead.logoBase64" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
                 </div>
-                <h2 class="text-xl font-bold tracking-tight text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                <h2 class="text-xl font-bold tracking-tight text-slate-900"
+                    x-text="letterhead.companyName || 'Company Name'"></h2>
                 <p class="text-xs text-slate-500 mt-0.5 whitespace-pre-line" x-text="letterhead.address"></p>
                 <div class="mt-2 flex items-center justify-center gap-3 text-[10px] font-mono text-slate-500">
-                    <span class="font-bold uppercase tracking-wider text-[#3b3c95]" x-text="letterhead.docTitle || 'DOCUMENT'"></span>
+                    <span class="font-bold uppercase tracking-wider text-[#3b3c95]"
+                        x-text="letterhead.docTitle || 'DOCUMENT'"></span>
                     <span x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></span>
                     <span x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></span>
                 </div>
             </div>
 
             <!-- 4. Layout: left-accent-bar -->
-            <div class="flex gap-3 pb-6 mb-8 border-b border-slate-200" x-show="letterhead.layout === 'left-accent-bar'">
+            <div class="flex gap-3 pb-6 mb-8 border-b border-slate-200"
+                x-show="letterhead.layout === 'left-accent-bar'">
                 <div class="w-1 rounded bg-[#3b3c95] shrink-0"></div>
                 <div class="flex-1 flex items-start justify-between">
                     <div class="space-y-0.5 flex items-center gap-4">
-                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0"
+                            :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
                         <div>
-                            <h2 class="text-lg font-bold tracking-tight text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                            <h2 class="text-lg font-bold tracking-tight text-slate-900"
+                                x-text="letterhead.companyName || 'Company Name'"></h2>
                             <p class="text-xs text-slate-500 whitespace-pre-line" x-text="letterhead.address"></p>
                         </div>
                     </div>
                     <div class="text-right font-mono space-y-0.5">
-                        <h3 class="text-sm font-bold text-[#3b3c95] uppercase tracking-wider" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
-                        <p class="text-xs text-slate-500" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
-                        <p class="text-xs text-slate-500" x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
+                        <h3 class="text-sm font-bold text-[#3b3c95] uppercase tracking-wider"
+                            x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                        <p class="text-xs text-slate-500" x-show="letterhead.datePosition === 'top'"
+                            x-text="'Date: ' + docDate()"></p>
+                        <p class="text-xs text-slate-500" x-show="letterhead.statementFor"
+                            x-text="'For: ' + letterhead.statementFor"></p>
                     </div>
                 </div>
             </div>
 
             <!-- 5. Layout: monogram-inline -->
-            <div class="flex items-center justify-between pb-6 mb-8 border-b-2 border-[#3b3c95]" x-show="letterhead.layout === 'monogram-inline'">
+            <div class="flex items-center justify-between pb-6 mb-8 border-b-2 border-[#3b3c95]"
+                x-show="letterhead.layout === 'monogram-inline'">
                 <div class="flex items-center gap-3">
-                    <div x-show="!letterhead.logoBase64" class="w-11 h-11 rounded-full bg-[#3b3c95]/10 text-[#3b3c95] flex items-center justify-center font-black text-lg shrink-0"
-                         x-text="(letterhead.companyName || 'My').trim().slice(0,2).toUpperCase()"></div>
-                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                    <div x-show="!letterhead.logoBase64"
+                        class="w-11 h-11 rounded-full bg-[#3b3c95]/10 text-[#3b3c95] flex items-center justify-center font-black text-lg shrink-0"
+                        x-text="(letterhead.companyName || 'My').trim().slice(0,2).toUpperCase()"></div>
+                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0"
+                        :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
                     <div class="space-y-0.5">
-                        <h2 class="text-lg font-bold tracking-tight text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                        <h2 class="text-lg font-bold tracking-tight text-slate-900"
+                            x-text="letterhead.companyName || 'Company Name'"></h2>
                         <p class="text-xs text-slate-500" x-text="letterhead.address"></p>
                     </div>
                 </div>
                 <div class="text-right font-mono space-y-0.5">
-                    <h3 class="text-sm font-bold text-[#3b3c95] uppercase tracking-wider" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
-                    <p class="text-xs text-slate-500" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                    <h3 class="text-sm font-bold text-[#3b3c95] uppercase tracking-wider"
+                        x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <p class="text-xs text-slate-500" x-show="letterhead.datePosition === 'top'"
+                        x-text="'Date: ' + docDate()"></p>
                 </div>
             </div>
 
             <!-- 6. Layout: split-bordered -->
-            <div class="border-y-2 border-[#3b3c95] py-4 mb-8 flex justify-between items-start" x-show="letterhead.layout === 'split-bordered'">
+            <div class="border-y-2 border-[#3b3c95] py-4 mb-8 flex justify-between items-start"
+                x-show="letterhead.layout === 'split-bordered'">
                 <div class="space-y-1 flex items-center gap-4">
-                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0"
+                        :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
                     <div>
-                        <h2 class="text-xl font-bold tracking-tight text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
-                        <p class="text-xs text-slate-500 whitespace-pre-line leading-relaxed" x-text="letterhead.address || 'Address information'"></p>
+                        <h2 class="text-xl font-bold tracking-tight text-slate-900"
+                            x-text="letterhead.companyName || 'Company Name'"></h2>
+                        <p class="text-xs text-slate-500 whitespace-pre-line leading-relaxed"
+                            x-text="letterhead.address || 'Address information'"></p>
                     </div>
                 </div>
                 <div class="text-right space-y-1 font-mono shrink-0">
-                    <h3 class="text-sm font-bold text-[#3b3c95] tracking-wider uppercase" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
-                    <p class="text-xs text-slate-500" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
-                    <p class="text-xs text-slate-500" x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
+                    <h3 class="text-sm font-bold text-[#3b3c95] tracking-wider uppercase"
+                        x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <p class="text-xs text-slate-500" x-show="letterhead.datePosition === 'top'"
+                        x-text="'Date: ' + docDate()"></p>
+                    <p class="text-xs text-slate-500" x-show="letterhead.statementFor"
+                        x-text="'For: ' + letterhead.statementFor"></p>
                 </div>
             </div>
 
             <!-- 7. Layout: editorial-column -->
-            <div class="grid grid-cols-3 gap-6 pb-6 mb-8 border-b-2 border-slate-200" x-show="letterhead.layout === 'editorial-column'">
+            <div class="grid grid-cols-3 gap-6 pb-6 mb-8 border-b-2 border-slate-200"
+                x-show="letterhead.layout === 'editorial-column'">
                 <div class="col-span-2 border-r border-slate-200 pr-6 flex items-start gap-4">
-                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0"
+                        :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
                     <div class="space-y-1">
-                        <h2 class="text-2xl font-extrabold tracking-tight text-slate-950 uppercase" x-text="letterhead.companyName || 'Company Name'"></h2>
-                        <p class="text-[11px] text-slate-400 italic" x-show="letterhead.tagline" x-text="letterhead.tagline"></p>
-                        <p class="text-xs text-slate-500 pt-1 whitespace-pre-line leading-normal" x-text="letterhead.address"></p>
+                        <h2 class="text-2xl font-extrabold tracking-tight text-slate-950 uppercase"
+                            x-text="letterhead.companyName || 'Company Name'"></h2>
+                        <p class="text-[11px] text-slate-400 italic" x-show="letterhead.tagline"
+                            x-text="letterhead.tagline"></p>
+                        <p class="text-xs text-slate-500 pt-1 whitespace-pre-line leading-normal"
+                            x-text="letterhead.address"></p>
                     </div>
                 </div>
                 <div class="pl-2 space-y-2 text-right self-end font-mono shrink-0">
-                    <h3 class="text-sm font-black text-[#3b3c95] tracking-widest uppercase" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <h3 class="text-sm font-black text-[#3b3c95] tracking-widest uppercase"
+                        x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
                     <div class="text-[10px] text-slate-500 space-y-0.5">
                         <p x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
                         <p x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
@@ -250,51 +293,66 @@
             </div>
 
             <!-- Modern Minimalist -->
-            <div class="flex items-start justify-between pb-6 mb-8 border-b border-slate-100" x-show="letterhead.layout === 'modern-minimalist'">
+            <div class="flex items-start justify-between pb-6 mb-8 border-b border-slate-100"
+                x-show="letterhead.layout === 'modern-minimalist'">
                 <div class="flex items-center gap-6">
-                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0"
+                        :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
                     <div class="h-8 w-px bg-slate-200"></div>
                     <div>
-                        <h2 class="text-lg font-black uppercase tracking-widest text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                        <h2 class="text-lg font-black uppercase tracking-widest text-slate-900"
+                            x-text="letterhead.companyName || 'Company Name'"></h2>
                         <p class="text-[10px] text-slate-400 font-mono tracking-wider" x-text="letterhead.tagline"></p>
                     </div>
                 </div>
                 <div class="text-right text-xs text-slate-500 font-mono leading-tight shrink-0">
-                    <h3 class="font-bold text-[#3b3c95] uppercase text-xs" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <h3 class="font-bold text-[#3b3c95] uppercase text-xs" x-text="letterhead.docTitle || 'DOCUMENT'">
+                    </h3>
                     <p class="mt-1" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
                     <p x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
                 </div>
             </div>
 
             <!-- Corporate Block -->
-            <div class="bg-slate-50 rounded-xl p-5 mb-8 border border-slate-200/80" x-show="letterhead.layout === 'corporate-block'">
+            <div class="bg-slate-50 rounded-xl p-5 mb-8 border border-slate-200/80"
+                x-show="letterhead.layout === 'corporate-block'">
                 <div class="flex justify-between items-start">
                     <div class="flex items-center gap-4">
-                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0"
+                            :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
                         <div>
-                            <h2 class="text-xl font-extrabold text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                            <h2 class="text-xl font-extrabold text-slate-900"
+                                x-text="letterhead.companyName || 'Company Name'"></h2>
                             <p class="text-xs text-slate-500" x-text="letterhead.address"></p>
                         </div>
                     </div>
                     <div class="text-right font-mono shrink-0">
-                        <h3 class="text-xs font-black uppercase tracking-wider text-[#3b3c95]" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
-                        <p class="text-[10px] text-slate-400 mt-1" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                        <h3 class="text-xs font-black uppercase tracking-wider text-[#3b3c95]"
+                            x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                        <p class="text-[10px] text-slate-400 mt-1" x-show="letterhead.datePosition === 'top'"
+                            x-text="'Date: ' + docDate()"></p>
                     </div>
                 </div>
             </div>
 
             <!-- Asymmetric Compact -->
-            <div class="flex items-start justify-between pb-6 mb-8 border-b-2 border-dashed border-slate-200" x-show="letterhead.layout === 'asymmetric-compact'">
+            <div class="flex items-start justify-between pb-6 mb-8 border-b-2 border-dashed border-slate-200"
+                x-show="letterhead.layout === 'asymmetric-compact'">
                 <div class="space-y-1">
                     <div class="flex items-center gap-3">
-                        <div x-show="!letterhead.logoBase64" class="w-8 h-8 rounded-lg bg-[#3b3c95]/10 text-[#3b3c95] flex items-center justify-center font-black text-sm" x-text="(letterhead.companyName || 'My').trim().slice(0,2).toUpperCase()"></div>
-                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
-                        <h2 class="text-lg font-bold text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                        <div x-show="!letterhead.logoBase64"
+                            class="w-8 h-8 rounded-lg bg-[#3b3c95]/10 text-[#3b3c95] flex items-center justify-center font-black text-sm"
+                            x-text="(letterhead.companyName || 'My').trim().slice(0,2).toUpperCase()"></div>
+                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0"
+                            :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                        <h2 class="text-lg font-bold text-slate-900" x-text="letterhead.companyName || 'Company Name'">
+                        </h2>
                     </div>
                     <p class="text-xs text-slate-500 max-w-md pt-1" x-text="letterhead.address"></p>
                 </div>
                 <div class="text-right shrink-0">
-                    <h3 class="text-sm font-extrabold uppercase text-[#3b3c95] tracking-wider" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <h3 class="text-sm font-extrabold uppercase text-[#3b3c95] tracking-wider"
+                        x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
                     <div class="text-xs text-slate-500 font-mono mt-1 space-y-0.5">
                         <p x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
                         <p x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
@@ -303,27 +361,33 @@
             </div>
 
             <!-- Compact Grid -->
-            <div class="grid grid-cols-3 gap-6 pb-6 mb-8 border-b-2 border-slate-200 text-xs text-slate-700" x-show="letterhead.layout === 'compact-grid'">
+            <div class="grid grid-cols-3 gap-6 pb-6 mb-8 border-b-2 border-slate-200 text-xs text-slate-700"
+                x-show="letterhead.layout === 'compact-grid'">
                 <div class="space-y-1">
                     <div class="flex items-center gap-2">
-                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0"
+                            :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
                         <h2 class="font-bold text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
                     </div>
-                    <p class="text-[10px] text-slate-500 whitespace-pre-line leading-tight" x-text="letterhead.address"></p>
+                    <p class="text-[10px] text-slate-500 whitespace-pre-line leading-tight" x-text="letterhead.address">
+                    </p>
                 </div>
                 <div class="border-l border-slate-200 pl-6 space-y-1 font-mono">
                     <h3 class="font-bold uppercase text-[#3b3c95]" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
-                    <p class="text-[10px] text-slate-500" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                    <p class="text-[10px] text-slate-500" x-show="letterhead.datePosition === 'top'"
+                        x-text="'Date: ' + docDate()"></p>
                 </div>
                 <div class="border-l border-slate-200 pl-6 space-y-1">
-                    <p class="font-semibold text-slate-700" x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
+                    <p class="font-semibold text-slate-700" x-show="letterhead.statementFor"
+                        x-text="'For: ' + letterhead.statementFor"></p>
                     <p class="text-[10px] text-slate-500" x-show="letterhead.bin" x-text="'BIN: ' + letterhead.bin"></p>
                 </div>
             </div>
         </div>
 
         <!-- Spreadsheet Records Table -->
-        <table class="doc-table" :style="{ 'font-size': computedTableFontSize + 'px', '--th-bg': settings.thBg || undefined, '--th-text': settings.thText || undefined }">
+        <table class="doc-table"
+            :style="{ 'font-size': computedTableFontSize + 'px', '--th-bg': settings.thBg || undefined, '--th-text': settings.thText || undefined }">
             <thead>
                 <tr>
                     <template x-for="col in headers.filter(h => h.visible)" :key="col.key">
@@ -335,7 +399,8 @@
                 <template x-for="(row, idx) in rows" :key="idx">
                     <tr :class="settings.boldLastRow && idx === rows.length - 1 ? 'pt-bold-row' : ''">
                         <template x-for="col in headers.filter(h => h.visible)" :key="col.key">
-                            <td :class="col.align === 'right' ? 'align-right' : ''" x-text="formatCell(row[col.key], col.type)"></td>
+                            <td :class="col.align === 'right' ? 'align-right' : ''"
+                                x-text="formatCell(row[col.key], col.type)"></td>
                         </template>
                     </tr>
                 </template>
@@ -353,18 +418,21 @@
 
         <!-- Bottom Date Indicator Block -->
         <div class="mt-8 text-right text-xs font-mono text-slate-500"
-             x-show="showLetterhead && letterhead.datePosition === 'bottom'"
-             x-text="'Document Date: ' + docDate()"></div>
+            x-show="showLetterhead && letterhead.datePosition === 'bottom'" x-text="'Document Date: ' + docDate()">
+        </div>
 
         <!-- Dynamic Footnote Footer (Max 1 Line) -->
-        <div x-show="settings.showFooter" class="mt-6 border-t border-slate-100 pt-2 text-[10px] text-slate-400 font-mono">
+        <div x-show="settings.showFooter"
+            class="mt-6 border-t border-slate-100 pt-2 text-[10px] text-slate-400 font-mono">
             <!-- Simple Text Layout -->
-            <div class="text-center" x-show="settings.footerLayout === 'simple-text'" x-text="settings.footerText"></div>
+            <div class="text-center" x-show="settings.footerLayout === 'simple-text'" x-text="settings.footerText">
+            </div>
 
             <!-- Brand Accent Line Layout -->
             <div class="space-y-1" x-show="settings.footerLayout === 'brand-accent'">
                 <div class="h-0.5 w-full bg-[--accent] opacity-30"></div>
-                <div class="text-center" x-text="(letterhead.companyName || 'Paper Trail') + ' · ' + settings.footerText"></div>
+                <div class="text-center"
+                    x-text="(letterhead.companyName || 'Paper Trail') + ' · ' + settings.footerText"></div>
             </div>
 
             <!-- Split Footnote Layout -->
@@ -430,7 +498,7 @@
                         // Set Theme custom properties dynamically
                         const theme = data.theme || 'indigo';
                         document.documentElement.setAttribute('data-theme', theme);
-                        
+
                         // Set layout orientation styling
                         this.toggleOrientation(this.orientation);
 
@@ -584,4 +652,5 @@
         }
     </script>
 </body>
+
 </html>

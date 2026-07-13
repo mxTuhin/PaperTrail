@@ -350,6 +350,9 @@ document.addEventListener('alpine:init', () => {
         thBg: localStorage.getItem('pt-th-bg') || '',
         thText: localStorage.getItem('pt-th-text') || '',
 
+        // Page top accent color strip parameter
+        showTopBar: localStorage.getItem('pt-show-top-bar') === 'true',
+
         setDateFormat(format) {
             this.dateFormat = format;
             localStorage.setItem('pt-date-format', format);
@@ -400,6 +403,10 @@ document.addEventListener('alpine:init', () => {
             this.thText = '';
             localStorage.removeItem('pt-th-bg');
             localStorage.removeItem('pt-th-text');
+        },
+        setShowTopBar(value) {
+            this.showTopBar = value;
+            localStorage.setItem('pt-show-top-bar', value);
         }
     });
 

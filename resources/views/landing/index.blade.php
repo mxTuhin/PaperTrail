@@ -89,7 +89,7 @@
                     </span>
                     
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.08] font-['Plus_Jakarta_Sans']">
-                        Beautiful A4 reports from <br>
+                        Beautiful reports from <br>
                         <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">raw spreadsheets.</span>
                     </h1>
                     
@@ -223,8 +223,8 @@
                         <!-- Sim Head -->
                         <div class="flex justify-between items-start pb-6 border-b border-slate-100 mb-6">
                             <div class="space-y-1">
-                                <h4 class="text-base font-bold text-slate-800">Apex Industries Ltd.</h4>
-                                <p class="text-[10px] text-slate-400">Road 12, Banani, Dhaka · billing@apex.com</p>
+                                <h4 class="text-base font-bold text-slate-800">Horizon Ventures Ltd.</h4>
+                                <p class="text-[10px] text-slate-400">Road 12, Banani, Dhaka · billing@horizon.com</p>
                             </div>
                             <div class="text-right">
                                 <span class="text-xs font-bold uppercase tracking-wider" :style="`color: ${getSelectedColorHex()}`" x-text="activeData === 'sales' ? 'Sales Invoice' : (activeData === 'billing' ? 'Billing Statement' : 'Logistics Report')"></span>
@@ -233,8 +233,8 @@
                         </div>
 
                         <!-- Sim Table -->
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs border-collapse" :data-table-style="activeStyle" :style="`--accent: ${getSelectedColorHex()}; --accent-fg: #ffffff; --accent-subtle: ${getSelectedColorHex()}18; --accent-muted: ${getSelectedColorHex()}30; --border: #e2e8f0; --border-2: #cbd5e1; --surface-2: #f8fafc; --surface-3: #f1f5f9; --ink: #0f0f1d; --ink-2: #334155;`">
+                        <div class="overflow-x-auto" :data-table-style="activeStyle">
+                            <table class="doc-table w-full text-left text-xs border-collapse" :style="`--accent: ${getSelectedColorHex()}; --accent-fg: #ffffff; --accent-subtle: ${getSelectedColorHex()}18; --accent-muted: ${getSelectedColorHex()}30; --border: #e2e8f0; --border-2: #cbd5e1; --surface-2: #f8fafc; --surface-3: #f1f5f9; --ink: #0f0f1d; --ink-2: #334155;`">
                                 <thead>
                                     <tr>
                                         <template x-for="h in getHeaders()" :key="h">
@@ -448,12 +448,12 @@
             loadDemoData() {
                 // Hardcoded base64 representation of a standard sample sales ledger CSV:
                 // Invoice ID,Client,Country,Balance Due,Status,Date
-                // #INV-1001,Acme Corporation,United States,42500.00,Paid,2026-05-12
+                // #INV-1001,Pinnacle Group,United States,42500.00,Paid,2026-05-12
                 // #INV-1002,Rahman & Sons,Bangladesh,18200.00,Pending,2026-05-14
                 // #INV-1003,Vertex Global,Germany,31000.00,Overdue,2026-05-15
                 // #INV-1004,Zenith Media,United Kingdom,12500.00,Paid,2026-05-18
                 // #INV-1005,Beximco Pharm,Bangladesh,65000.00,Pending,2026-05-20
-                const base64Csv = 'SW52b2ljZSBJRCxDbGllbnQsQ291bnRyeSxCYWxhbmNlIER1ZSxTdGF0dXMsRGF0ZQojSU5WLTEwMDEsQWNtZSBDb3Jwb3JhdGlvbixVbml0ZWQgU3RhdGVzLDQyNTAwLjAwLFBhaWQsMjAyNi0wNS0xMgojSU5WLTEwMDIsUmFobWFuICYgU29ucyxCYW5nbGFkZXNoLDE4MjAwLjAwLFBlbmRpbmcsMjAyNi0wNS0xNAojSU5WLTEwMDMsVmVydGV4IEdsb2JhbCxHZXJtYW55LDMxMDAwLjAwLE92ZXJkdWUsMjAyNi0wNS0xNQojSU5WLTEwMDQsWmVuaXRoIE1lZGlhLFVuaXRlZCBLaW5nZG9tLDEyNTAwLjAwLFBhaWQsMjAyNi0wNS0xOAojSU5WLTEwMDUsQmV4aW1jbyBQaGFybSxCYW5nbGFkZXNoLDY1MDAwLjAwLFBlbmRpbmcsMjAyNi0wNS0yMA==';
+                const base64Csv = 'SW52b2ljZSBJRCxDbGllbnQsQ291bnRyeSxCYWxhbmNlIER1ZSxTdGF0dXMsRGF0ZQojSU5WLTEwMDEsUGlubmFjbGUgR3JvdXAsVW5pdGVkIFN0YXRlcyw0MjUwMC4wMCxQYWlkLDIwMjYtMDUtMTIKI0lOVi0xMDAyLFJhaG1hbiAmIFNvbnMsQmFuZ2xhZGVzaCwxODIwMC4wMCxQZW5kaW5nLDIwMjYtMDUtMTQKI0lOVi0xMDAzLFZlcnRleCBHbG9iYWwsR2VybWFueSwzMTAwMC4wMCxPdmVyZHVlLDIwMjYtMDUtMTUKI0lOVi0xMDA0LFplbml0aCBNZWRpYSxVbml0ZWQgS2luZ2RvbSwxMjUwMC4wMCxQYWlkLDIwMjYtMDUtMTgKI0lOVi0xMDA1LEJleGltY28gUGhhcm0sQmFuZ2xhZGVzaCw2NTAwMC4wMCxQZW5kaW5nLDIwMjYtMDUtMjA=';
                 
                 try {
                     sessionStorage.setItem('pt_pending_file', base64Csv);
@@ -510,7 +510,7 @@
             getRows() {
                 if (this.activeData === 'sales') {
                     return [
-                        { id: '#INV-0042', client: 'Apex Industries', amount: '৳ 24,500.00' },
+                        { id: '#INV-0042', client: 'Nova Trading', amount: '৳ 24,500.00' },
                         { id: '#INV-0043', client: 'Rahman Brothers', amount: '৳ 18,300.00' },
                         { id: '#INV-0044', client: 'Beximco Corp', amount: '৳ 45,000.00' }
                     ];
