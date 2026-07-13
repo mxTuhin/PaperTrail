@@ -245,6 +245,13 @@ document.addEventListener('alpine:init', () => {
         headerRow: 0,
         isLoaded: false,
 
+        // ── Summary Dashboard (Step 11) lives in its OWN window (/app/dashboard).
+        //    Here we only track whether the current sheet can drive one, to gate
+        //    the "Open Dashboard" launch button. All compute happens on that page.
+        dashboard: {
+            isGenerated: false,
+        },
+
         loadFile(file) {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -299,12 +306,20 @@ document.addEventListener('alpine:init', () => {
             });
 
             this.isLoaded = true;
+            this.initDashboard();
             trackEvent('process', { rows: this.rows.length, cols: this.headers.length });
         },
 
         /** Re-derive a column's alignment after a manual type override. */
         applyAlignment(col) {
             col.align = RIGHT_ALIGNED_TYPES.includes(col.type) ? 'right' : 'left';
+        },
+
+        /* The dashboard is available whenever the sheet has at least one numeric
+           column to summarise. The standalone window does the rest. */
+        initDashboard() {
+            const hasNumeric = this.headers.some((h) => ['integer', 'decimal', 'currency'].includes(h.type));
+            this.dashboard.isGenerated = hasNumeric && this.rows.length > 0;
         },
 
         saveState() {

@@ -66,7 +66,7 @@
                 background: white;
                 box-shadow: var(--shadow-md);
                 margin: 2rem auto;
-                padding: 11.25mm;
+                padding: 10mm;
                 border: 1px solid var(--border);
                 border-radius: var(--radius-xs);
             }
@@ -78,7 +78,7 @@
         @media print {
             /* Page margins on every printed page (portrait or landscape). */
             @page {
-                margin: 11.25mm; /* Matches the screen preview sheet padding exactly */
+                margin: 10mm; /* Matches the screen preview sheet padding exactly */
             }
             .a4-page-container {
                 padding: 0 !important; /* Handled by page margin */
@@ -301,6 +301,17 @@
                 </div>
             </div>
 
+            <!-- Summary Dashboard — launches a standalone window; all controls live there -->
+            <div class="space-y-2 pt-4 border-t border-slate-100" x-show="$store.spreadsheet.dashboard.isGenerated">
+                <h3 class="font-bold text-xs uppercase tracking-wider text-[--ink-muted]">Summary Dashboard</h3>
+                <p class="text-[11px] text-[--ink-muted] leading-snug">Opens a standalone report — KPIs, month grouping, chart &amp; table — in its own window with its own controls. It never touches this document or the printed table.</p>
+                <button type="button" @click="openDashboard()"
+                        class="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-[#3b3c95] text-white text-xs font-semibold hover:bg-[#32338a] transition">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+                    Open Dashboard
+                </button>
+            </div>
+
             <!-- Date & Numbers (Step 09) -->
             <div class="space-y-3 pt-4 border-t border-slate-100">
                 <h3 class="font-bold text-xs uppercase tracking-wider text-[--ink-muted]">Date &amp; Numbers</h3>
@@ -368,6 +379,16 @@
 
             <!-- II. File loaded: A4 print layout simulated wrapper -->
             <div class="document-preview-pane flex-1 w-full" x-cloak x-show="$store.spreadsheet.isLoaded" :data-table-style="$store.theme.tableStyle">
+
+                <!-- Reassurance note (screen only) — the working preview may show a
+                     wide table, but the print output is fitted to the page. -->
+                <div class="no-print max-w-[210mm] mx-auto mt-6 -mb-2 px-1">
+                    <div class="flex items-start gap-2 rounded-lg border border-[#3b3c95]/15 bg-[#3b3c95]/5 px-4 py-2.5 text-[11px] leading-relaxed text-[#454570]">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4 shrink-0 text-[#3b3c95] mt-px"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>
+                        <span>This is a working preview — a wide table may overflow the sheet here. <span class="font-semibold text-[#141428]">Print / Save PDF opens the Print Preview, which fits the whole table within the page margins.</span> Try Portrait vs. Landscape there for the best fit.</span>
+                    </div>
+                </div>
+
                 <div id="print-area" class="a4-page-container transition-all">
                     
                     <!-- Dynamic Letterhead Mount Header Block -->
@@ -771,14 +792,13 @@
                     });
                 }
 
-                // Gather print dataset
+                // Gather print dataset (the printable A4 table — dashboard is a separate window)
                 const payload = {
                     headers: Alpine.store('spreadsheet').headers,
                     rows: Alpine.store('spreadsheet').rows,
                     letterhead: Alpine.store('letterhead').active,
                     showLetterhead: Alpine.store('letterhead').showOnPrint,
                     tableStyle: Alpine.store('theme').tableStyle,
-                    dashboard: Alpine.store('spreadsheet').dashboard,
                     theme: Alpine.store('theme').current,
                     customAccent: Alpine.store('theme').customAccent,
                     orientation: Alpine.store('theme').orientation,
@@ -802,6 +822,28 @@
 
                 // Open print preview page in a clean new tab
                 window.open("{{ route('app.print') }}", "_blank");
+            },
+
+            // ── Summary Dashboard — standalone window with its OWN controls + print.
+            //    We only hand over the raw dataset; the dashboard page computes everything.
+            openDashboard() {
+                const store = Alpine.store('spreadsheet');
+                if (!store.isLoaded || !store.rows.length) { return; }
+
+                if (typeof trackEvent === 'function') {
+                    trackEvent('dashboard', { rows: store.rows.length });
+                }
+
+                const payload = {
+                    headers: store.headers,
+                    rows: store.rows,
+                    letterhead: Alpine.store('letterhead').active,
+                    dateStr: this.docDate(),
+                    numberFormat: Alpine.store('settings') ? Alpine.store('settings').numberFormat : 'western',
+                };
+                sessionStorage.setItem('pt_dashboard_data', JSON.stringify(payload));
+                window.open("{{ route('app.dashboard') }}", 'pt_dashboard',
+                    'width=1200,height=860');
             },
 
             fitTableToPage() {

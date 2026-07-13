@@ -15,4 +15,9 @@ class AppController extends Controller
     {
         return view('app.print');
     }
+
+    public function dashboard(): View
+    {
+        return view('app.dashboard');
+    }
 }

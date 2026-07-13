@@ -56,7 +56,7 @@
 
         @media print {
             @page {
-                margin: 11.25mm;
+                margin: 10mm;
             }
             .a4-print-sheet {
                 padding: 0 !important;
@@ -76,7 +76,7 @@
                 min-height: 297mm;
                 background: white;
                 margin: 2rem auto;
-                padding: 11.25mm;
+                padding: 10mm;
                 border: 1px solid var(--border);
                 border-radius: var(--radius-xs);
                 box-shadow: 0 4px 20px -8px rgba(0,0,0,0.05);
@@ -322,55 +322,6 @@
             </div>
         </div>
 
-        <!-- ══════════ DYNAMIC DASHBOARD SUMMARY (Step 11 dashboard widgets) ══════════ -->
-        <div x-show="dashboard.enabled && dashboard.isGenerated" class="mb-8 space-y-6">
-            <div class="grid gap-4" :class="dashboard.config.cardColumns === 2 ? 'grid-cols-2' : 'grid-cols-3'">
-                
-                <div x-show="dashboard.config.showSum" class="border border-[--border] rounded-xl p-4 bg-[--surface] flex flex-col justify-between break-inside-avoid">
-                    <span class="text-[10px] uppercase font-mono tracking-wider text-[--ink-muted]">Total Sum</span>
-                    <span class="text-lg font-bold mt-1 text-[--ink]" x-text="dashboard.summary.sum"></span>
-                    <span class="text-[9px] text-[--ink-muted] mt-1.5">Accumulated metrics</span>
-                </div>
-
-                <div x-show="dashboard.config.showAvg" class="border border-[--border] rounded-xl p-4 bg-[--surface] flex flex-col justify-between break-inside-avoid">
-                    <span class="text-[10px] uppercase font-mono tracking-wider text-[--ink-muted]">Average</span>
-                    <span class="text-lg font-bold mt-1 text-[--ink]" x-text="dashboard.summary.avg"></span>
-                    <span class="text-[9px] text-[--ink-muted] mt-1.5" x-text="'Range: ' + dashboard.summary.min + ' - ' + dashboard.summary.max"></span>
-                </div>
-
-                <div x-show="dashboard.config.showCount" class="border border-[--border] rounded-xl p-4 bg-[--surface] flex flex-col justify-between break-inside-avoid">
-                    <span class="text-[10px] uppercase font-mono tracking-wider text-[--ink-muted]">Count</span>
-                    <span class="text-lg font-bold mt-1 text-[--ink]" x-text="dashboard.summary.count"></span>
-                    <span class="text-[9px] text-[--ink-muted] mt-1.5">Spreadsheet record lines</span>
-                </div>
-
-                <div x-show="dashboard.config.showTimeline && dashboard.summary.timelineText" class="border border-[--border] rounded-xl p-4 bg-[--surface] flex flex-col justify-between break-inside-avoid">
-                    <span class="text-[10px] uppercase font-mono tracking-wider text-[--ink-muted]">Timeline Span</span>
-                    <span class="text-sm font-bold mt-2 text-[--ink]" x-text="dashboard.summary.timelineText"></span>
-                    <span class="text-[9px] text-[--ink-muted] mt-1.5">Date range duration</span>
-                </div>
-            </div>
-
-            <!-- Breakdown percentage bars -->
-            <div x-show="dashboard.config.showBreakdown && dashboard.config.groupCol && dashboard.summary.breakdownItems.length > 0" 
-                 class="border border-[--border] rounded-xl p-5 bg-[--surface] space-y-4 break-inside-avoid">
-                <h4 class="text-xs font-bold text-[--ink] uppercase tracking-wider" x-text="'Breakdown by ' + dashboard.summary.breakdownLabel"></h4>
-                <div class="space-y-3">
-                    <template x-for="item in dashboard.summary.breakdownItems" :key="item.name">
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-xs font-semibold text-[--ink-2]">
-                                <span x-text="item.name"></span>
-                                <span x-text="item.value + ' (' + item.pct + '%)'"></span>
-                            </div>
-                            <div class="w-full h-2 rounded bg-slate-100 overflow-hidden relative">
-                                <div class="h-full bg-[--accent] rounded" :style="`width: ${item.pct}%`"></div>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </div>
-
         <!-- Spreadsheet Records Table -->
         <table class="doc-table" :style="{ 'font-size': computedTableFontSize + 'px', '--th-bg': settings.thBg || undefined, '--th-text': settings.thText || undefined }">
             <thead>
@@ -439,28 +390,6 @@
                     datePosition: 'top',
                     date: ''
                 },
-                dashboard: {
-                    enabled: false,
-                    isGenerated: false,
-                    config: {
-                        showSum: true,
-                        showAvg: true,
-                        showCount: true,
-                        showTimeline: true,
-                        showBreakdown: true,
-                        cardColumns: 3
-                    },
-                    summary: {
-                        sum: 0,
-                        avg: 0,
-                        count: 0,
-                        min: 0,
-                        max: 0,
-                        timelineText: '',
-                        breakdownLabel: '',
-                        breakdownItems: []
-                    }
-                },
                 showLetterhead: true,
                 tableStyle: 'boxed',
                 orientation: 'portrait',
@@ -495,7 +424,6 @@
                         this.showLetterhead = data.showLetterhead !== false;
                         this.tableStyle = data.tableStyle || 'boxed';
                         this.dateStr = data.dateStr || new Date().toLocaleDateString('en-GB');
-                        this.dashboard = data.dashboard || this.dashboard;
                         this.settings = data.settings || this.settings;
                         this.orientation = data.orientation || 'portrait';
 
