@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'PaperTrail — Format Report')
+@section('title', 'Format a Spreadsheet into a PDF Report — PaperTrail')
+@section('meta_description', 'Upload an Excel, CSV or TSV file and instantly format it into a clean, print-ready A4 PDF report. Adjust styling, columns and letterhead live in your browser — nothing is uploaded.')
 
 @push('head')
     <style>

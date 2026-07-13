@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /app/print
+Disallow: /app/dashboard
+
+Sitemap: https://papertrail.soulspark.games/sitemap.xml

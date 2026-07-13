@@ -5,7 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'PaperTrail')</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FYF7989GH9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-FYF7989GH9');
+    </script>
+
+    <title>@yield('title', 'PaperTrail — Format Spreadsheets into Clean PDF Reports')</title>
+
+    <!-- SEO / social / structured data -->
+    @include('partials.seo')
 
     <!-- Bunny Fonts: Instrument Sans -->
     <link rel="preconnect" href="https://fonts.bunny.net">

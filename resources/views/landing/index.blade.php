@@ -1,6 +1,50 @@
 @extends('layouts.app')
 
 @section('title', 'PaperTrail — Format Spreadsheets into Clean PDF Reports')
+@section('meta_description', 'Convert cluttered Excel, CSV or TSV spreadsheets into elegant, print-ready A4 PDF reports in seconds. Automatic alignment, currency formatting and custom letterheads — 100% in your browser, so your data never leaves your device. Free and private.')
+
+@push('structured-data')
+    <script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => [
+            [
+                '@type' => 'Question',
+                'name' => 'How do I convert a spreadsheet to a PDF report?',
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => 'Open PaperTrail, drag in your Excel (XLSX), CSV or TSV file, adjust the styling and letterhead if needed, then use Print to save a clean, print-ready A4 PDF. Everything happens in your browser — no upload or sign-up required.',
+                ],
+            ],
+            [
+                '@type' => 'Question',
+                'name' => 'Is my data uploaded to a server?',
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => 'No. PaperTrail processes your spreadsheet entirely on your device using client-side JavaScript. Your files and their contents never leave your browser and are never sent to any server.',
+                ],
+            ],
+            [
+                '@type' => 'Question',
+                'name' => 'Which file formats does PaperTrail support?',
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => 'PaperTrail supports Excel .xlsx, .csv and .tsv files up to 30 MB. Columns are automatically aligned, and currency, number and date values are formatted for professional business documents.',
+                ],
+            ],
+            [
+                '@type' => 'Question',
+                'name' => 'Is PaperTrail free to use?',
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => 'Yes. PaperTrail is completely free to use, with no account, watermark or upload required.',
+                ],
+            ],
+        ],
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+@endpush
 
 @section('content')
 @push('head')
@@ -8,8 +52,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-    
-    <meta name="description" content="Turn any spreadsheet into a clean, print-ready A4 PDF. Files never leave your browser. Free, fast, private.">
     <style>
         /* Premium Background Grid Pattern */
         .bg-grid-dot {
@@ -389,6 +431,51 @@
                             <span>Zero cloud storage logs — compliant with strict corporate privacy mandates.</span>
                         </li>
                     </ul>
+                </div>
+            </div>
+        </section>
+
+        {{-- ══════════ FAQ ══════════ --}}
+        <section id="faq" class="py-24 border-t border-slate-200/60 bg-[#fcfbfa]">
+            <div class="max-w-3xl mx-auto px-6">
+                <div class="text-center space-y-3 mb-14">
+                    <span class="font-mono text-[10px] uppercase tracking-[0.25em] text-indigo-600 font-bold">FAQ</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 font-['Plus_Jakarta_Sans']">Frequently asked questions</h2>
+                    <p class="text-xs sm:text-sm text-slate-500">Everything you need to know about turning spreadsheets into clean PDF reports.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <details class="group bg-white border border-slate-200/80 rounded-2xl shadow-sm open:shadow-md transition-all duration-200">
+                        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-6">
+                            <h3 class="font-bold text-sm text-slate-800">How do I convert a spreadsheet to a PDF report?</h3>
+                            <span class="w-6 h-6 rounded-full bg-slate-50 text-indigo-600 flex items-center justify-center text-lg shrink-0 transition-transform duration-200 group-open:rotate-45">+</span>
+                        </summary>
+                        <p class="px-6 pb-6 -mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed">Open PaperTrail, drag in your Excel (XLSX), CSV or TSV file, adjust the styling and letterhead if needed, then use Print to save a clean, print-ready A4 PDF. Everything happens in your browser — no upload or sign-up required.</p>
+                    </details>
+
+                    <details class="group bg-white border border-slate-200/80 rounded-2xl shadow-sm open:shadow-md transition-all duration-200">
+                        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-6">
+                            <h3 class="font-bold text-sm text-slate-800">Is my data uploaded to a server?</h3>
+                            <span class="w-6 h-6 rounded-full bg-slate-50 text-indigo-600 flex items-center justify-center text-lg shrink-0 transition-transform duration-200 group-open:rotate-45">+</span>
+                        </summary>
+                        <p class="px-6 pb-6 -mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed">No. PaperTrail processes your spreadsheet entirely on your device using client-side JavaScript. Your files and their contents never leave your browser and are never sent to any server.</p>
+                    </details>
+
+                    <details class="group bg-white border border-slate-200/80 rounded-2xl shadow-sm open:shadow-md transition-all duration-200">
+                        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-6">
+                            <h3 class="font-bold text-sm text-slate-800">Which file formats does PaperTrail support?</h3>
+                            <span class="w-6 h-6 rounded-full bg-slate-50 text-indigo-600 flex items-center justify-center text-lg shrink-0 transition-transform duration-200 group-open:rotate-45">+</span>
+                        </summary>
+                        <p class="px-6 pb-6 -mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed">PaperTrail supports Excel .xlsx, .csv and .tsv files up to 30&nbsp;MB. Columns are automatically aligned, and currency, number and date values are formatted for professional business documents.</p>
+                    </details>
+
+                    <details class="group bg-white border border-slate-200/80 rounded-2xl shadow-sm open:shadow-md transition-all duration-200">
+                        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none p-6">
+                            <h3 class="font-bold text-sm text-slate-800">Is PaperTrail free to use?</h3>
+                            <span class="w-6 h-6 rounded-full bg-slate-50 text-indigo-600 flex items-center justify-center text-lg shrink-0 transition-transform duration-200 group-open:rotate-45">+</span>
+                        </summary>
+                        <p class="px-6 pb-6 -mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed">Yes. PaperTrail is completely free to use, with no account, watermark or upload required.</p>
+                    </details>
                 </div>
             </div>
         </section>

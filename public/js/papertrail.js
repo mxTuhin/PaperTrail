@@ -253,6 +253,18 @@ document.addEventListener('alpine:init', () => {
         },
 
         loadFile(file) {
+            // Files are parsed entirely in the browser (never uploaded), so the
+            // only limit is client memory. Cap at 30 MB to avoid tab crashes on
+            // very large workbooks.
+            const MAX_FILE_BYTES = 30 * 1024 * 1024;
+            if (file && file.size > MAX_FILE_BYTES) {
+                alert(
+                    'This file is ' +
+                        (file.size / (1024 * 1024)).toFixed(1) +
+                        ' MB. PaperTrail supports spreadsheets up to 30 MB — please remove unused columns/rows or split the sheet and try again.'
+                );
+                return;
+            }
             const reader = new FileReader();
             reader.onload = (e) => {
                 const data = new Uint8Array(e.target.result);

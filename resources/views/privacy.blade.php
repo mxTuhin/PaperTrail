@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Privacy Policy — PaperTrail')
+@section('meta_description', 'PaperTrail processes your spreadsheets entirely in your browser. Read how we handle data: no file uploads, no storage of your document contents, and only anonymous usage counts.')
 
 @push('head')
     <style>

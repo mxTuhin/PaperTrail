@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'PaperTrail — Usage Dashboard')
+@section('robots', 'noindex, nofollow')
 
 @section('content')
 <div class="min-h-screen bg-[#faf9f6] text-[#141428] font-sans">
