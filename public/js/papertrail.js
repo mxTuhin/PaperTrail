@@ -326,6 +326,15 @@ document.addEventListener('alpine:init', () => {
         numberFormat: localStorage.getItem('pt-number-format') || 'western',
         currencySymbol: localStorage.getItem('pt-currency') || '৳',
 
+        // Dynamic footer customizer parameters
+        showFooter: localStorage.getItem('pt-show-footer') === 'true',
+        footerLayout: localStorage.getItem('pt-footer-layout') || 'simple-text',
+        footerText: localStorage.getItem('pt-footer-text') || 'Thank you for your business.',
+
+        // Table header color customization overrides
+        thBg: localStorage.getItem('pt-th-bg') || '',
+        thText: localStorage.getItem('pt-th-text') || '',
+
         setDateFormat(format) {
             this.dateFormat = format;
             localStorage.setItem('pt-date-format', format);
@@ -351,6 +360,32 @@ document.addEventListener('alpine:init', () => {
             this.currencySymbol = sym;
             localStorage.setItem('pt-currency', sym);
         },
+        setShowFooter(value) {
+            this.showFooter = value;
+            localStorage.setItem('pt-show-footer', value);
+        },
+        setFooterLayout(layout) {
+            this.footerLayout = layout;
+            localStorage.setItem('pt-footer-layout', layout);
+        },
+        setFooterText(text) {
+            this.footerText = text;
+            localStorage.setItem('pt-footer-text', text);
+        },
+        setThBg(color) {
+            this.thBg = color;
+            localStorage.setItem('pt-th-bg', color);
+        },
+        setThText(color) {
+            this.thText = color;
+            localStorage.setItem('pt-th-text', color);
+        },
+        resetThColors() {
+            this.thBg = '';
+            this.thText = '';
+            localStorage.removeItem('pt-th-bg');
+            localStorage.removeItem('pt-th-text');
+        }
     });
 
     /* ─── Letterhead store (Step 06) ──────────────────────────────────── */

@@ -66,7 +66,7 @@
                 background: white;
                 box-shadow: var(--shadow-md);
                 margin: 2rem auto;
-                padding: 15mm;
+                padding: 11.25mm;
                 border: 1px solid var(--border);
                 border-radius: var(--radius-xs);
             }
@@ -78,7 +78,7 @@
         @media print {
             /* Page margins on every printed page (portrait or landscape). */
             @page {
-                margin: 15mm; /* Matches the screen preview sheet padding exactly */
+                margin: 11.25mm; /* Matches the screen preview sheet padding exactly */
             }
             .a4-page-container {
                 padding: 0 !important; /* Handled by page margin */
@@ -115,7 +115,7 @@
             <span class="text-xs text-[--ink-muted] font-medium hidden sm:inline" x-show="$store.spreadsheet.isLoaded" x-text="'File: ' + fileName"></span>
         </div>
 
-        <div class="flex items-center gap-3" x-show="$store.spreadsheet.isLoaded">
+        <div class="flex items-center gap-3" x-cloak x-show="$store.spreadsheet.isLoaded">
             <!-- Orientation Toggle -->
             <select @change="$store.theme.setOrientation($event.target.value)" :value="$store.theme.orientation" class="text-xs border border-[--border] rounded-lg px-3 py-1.5 bg-white text-[--ink] outline-none">
                 <option value="portrait">A4 Portrait</option>
@@ -142,7 +142,7 @@
     <div class="flex-1 flex overflow-hidden">
 
         <!-- A. Left Sidebar Controls (no-print) -->
-        <aside class="no-print workspace-sidebar shrink-0 overflow-y-auto p-5 space-y-6" x-show="$store.spreadsheet.isLoaded">
+        <aside class="no-print workspace-sidebar shrink-0 overflow-y-auto p-5 space-y-6" x-cloak x-show="$store.spreadsheet.isLoaded">
             
             <!-- Back to Import -->
             <button @click="clearActiveFile()" class="text-xs font-semibold text-[--ink-muted] hover:text-[--ink] flex items-center gap-1.5 transition-colors pb-2 border-b border-slate-100 w-full text-left">
@@ -193,6 +193,12 @@
                         <option value="left-accent-bar">Left Accent Bar</option>
                         <option value="monogram-inline">Monogram Title</option>
                         <option value="minimal-rule">Minimal Rule</option>
+                        <option value="split-bordered">Split Bordered</option>
+                        <option value="editorial-column">Editorial Column</option>
+                        <option value="modern-minimalist">Modern Minimalist</option>
+                        <option value="corporate-block">Corporate Block</option>
+                        <option value="asymmetric-compact">Asymmetric Compact</option>
+                        <option value="compact-grid">Compact Grid</option>
                     </select>
 
                     <label class="block text-[10px] text-[--ink-muted] uppercase mt-2">Display Density</label>
@@ -253,6 +259,46 @@
                         <span class="text-[10px] text-[--ink-muted]">px</span>
                     </span>
                 </label>
+
+                <!-- Custom Table Header Colors -->
+                <div class="space-y-2 pt-2 border-t border-slate-100/60">
+                    <label class="block text-[10px] text-[--ink-muted] uppercase">Header Custom Colors</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <span class="text-[9px] text-[--ink-muted] block mb-1">Background</span>
+                            <div class="flex items-center gap-1">
+                                <input type="color" :value="$store.settings.thBg || '#ffffff'" @input="$store.settings.setThBg($event.target.value)" class="w-6 h-6 rounded border border-[--border] cursor-pointer bg-transparent p-0">
+                                <button type="button" @click="$store.settings.setThBg('')" class="text-[9px] text-red-500 hover:text-red-600 font-medium" x-show="$store.settings.thBg">Clear</button>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-[9px] text-[--ink-muted] block mb-1">Text Color</span>
+                            <div class="flex items-center gap-1">
+                                <input type="color" :value="$store.settings.thText || '#000000'" @input="$store.settings.setThText($event.target.value)" class="w-6 h-6 rounded border border-[--border] cursor-pointer bg-transparent p-0">
+                                <button type="button" @click="$store.settings.setThText('')" class="text-[9px] text-red-500 hover:text-red-600 font-medium" x-show="$store.settings.thText">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer options -->
+            <div class="space-y-3 pt-4 border-t border-slate-100">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs uppercase tracking-wider text-[--ink-muted]">Footer Options</h3>
+                    <input type="checkbox" :checked="$store.settings.showFooter" @change="$store.settings.setShowFooter($event.target.checked)" class="rounded border-slate-300 text-[#3b3c95]">
+                </div>
+                <div class="space-y-2" x-show="$store.settings.showFooter">
+                    <label class="block text-[10px] text-[--ink-muted] uppercase">Footer Style</label>
+                    <select :value="$store.settings.footerLayout" @change="$store.settings.setFooterLayout($event.target.value)" class="w-full text-xs border border-[--border] rounded-lg px-3 py-2 bg-white text-[--ink]">
+                        <option value="simple-text">Simple Text</option>
+                        <option value="brand-accent">Brand Accent Line</option>
+                        <option value="split-footnote">Split Footnote</option>
+                    </select>
+
+                    <label class="block text-[10px] text-[--ink-muted] uppercase mt-2">Footer Text</label>
+                    <input type="text" :value="$store.settings.footerText" @input="$store.settings.setFooterText($event.target.value)" class="w-full text-xs border border-[--border] rounded-lg px-3 py-2 bg-white text-[--ink]">
+                </div>
             </div>
 
             <!-- Date & Numbers (Step 09) -->
@@ -288,7 +334,7 @@
         <div class="flex-1 flex flex-col min-w-0">
             
             <!-- I. No file loaded: Upload box fallback -->
-            <div class="flex-1 flex flex-col justify-center items-center p-8 no-print bg-[#faf9f6] bg-grid" x-show="!$store.spreadsheet.isLoaded">
+            <div class="flex-1 flex flex-col justify-center items-center p-8 no-print bg-[#faf9f6] bg-grid" x-cloak x-show="!$store.spreadsheet.isLoaded">
                 <div class="max-w-md w-full text-center space-y-6">
                     <div class="space-y-2">
                         <h2 class="text-xl font-bold text-[--ink]">Import spreadsheet to start</h2>
@@ -321,7 +367,7 @@
             </div>
 
             <!-- II. File loaded: A4 print layout simulated wrapper -->
-            <div class="document-preview-pane flex-1 w-full" x-show="$store.spreadsheet.isLoaded" :data-table-style="$store.theme.tableStyle">
+            <div class="document-preview-pane flex-1 w-full" x-cloak x-show="$store.spreadsheet.isLoaded" :data-table-style="$store.theme.tableStyle">
                 <div id="print-area" class="a4-page-container transition-all">
                     
                     <!-- Dynamic Letterhead Mount Header Block -->
@@ -386,10 +432,117 @@
                                 <p class="text-xs text-slate-500" x-show="$store.letterhead.active.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
                             </div>
                         </div>
+
+                        <!-- Split Bordered -->
+                        <div class="border-y-2 border-[#3b3c95] py-4 mb-8 flex justify-between items-start" x-show="$store.letterhead.active.layout === 'split-bordered'">
+                            <div class="space-y-1 flex items-center gap-4">
+                                <img x-show="$store.letterhead.active.logoBase64" :src="$store.letterhead.active.logoBase64" class="shrink-0" :style="'height: ' + $store.letterhead.active.logoHeight + 'px'">
+                                <div>
+                                    <h2 class="text-xl font-bold tracking-tight text-slate-900" x-text="$store.letterhead.active.companyName || 'Company Name'"></h2>
+                                    <p class="text-xs text-slate-500 whitespace-pre-line leading-relaxed" x-text="$store.letterhead.active.address || 'Address information'"></p>
+                                </div>
+                            </div>
+                            <div class="text-right space-y-1 font-mono shrink-0">
+                                <h3 class="text-sm font-bold text-[#3b3c95] tracking-wider uppercase" x-text="$store.letterhead.active.docTitle || 'DOCUMENT'"></h3>
+                                <p class="text-xs text-slate-500" x-show="$store.letterhead.active.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                                <p class="text-xs text-slate-500" x-show="$store.letterhead.active.statementFor" x-text="'For: ' + $store.letterhead.active.statementFor"></p>
+                            </div>
+                        </div>
+
+                        <!-- Editorial Column -->
+                        <div class="grid grid-cols-3 gap-6 pb-6 mb-8 border-b-2 border-slate-200" x-show="$store.letterhead.active.layout === 'editorial-column'">
+                            <div class="col-span-2 border-r border-slate-200 pr-6 flex items-start gap-4">
+                                <img x-show="$store.letterhead.active.logoBase64" :src="$store.letterhead.active.logoBase64" class="shrink-0" :style="'height: ' + $store.letterhead.active.logoHeight + 'px'">
+                                <div class="space-y-1">
+                                    <h2 class="text-2xl font-extrabold tracking-tight text-slate-950 uppercase" x-text="$store.letterhead.active.companyName || 'Company Name'"></h2>
+                                    <p class="text-[11px] text-slate-400 italic" x-show="$store.letterhead.active.tagline" x-text="$store.letterhead.active.tagline"></p>
+                                    <p class="text-xs text-slate-500 pt-1 whitespace-pre-line leading-normal" x-text="$store.letterhead.active.address"></p>
+                                </div>
+                            </div>
+                            <div class="pl-2 space-y-2 text-right self-end font-mono shrink-0">
+                                <h3 class="text-sm font-black text-[#3b3c95] tracking-widest uppercase" x-text="$store.letterhead.active.docTitle || 'DOCUMENT'"></h3>
+                                <div class="text-[10px] text-slate-500 space-y-0.5">
+                                    <p x-show="$store.letterhead.active.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                                    <p x-show="$store.letterhead.active.statementFor" x-text="'For: ' + $store.letterhead.active.statementFor"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modern Minimalist -->
+                        <div class="flex items-start justify-between pb-6 mb-8 border-b border-slate-100" x-show="$store.letterhead.active.layout === 'modern-minimalist'">
+                            <div class="flex items-center gap-6">
+                                <img x-show="$store.letterhead.active.logoBase64" :src="$store.letterhead.active.logoBase64" class="shrink-0" :style="'height: ' + $store.letterhead.active.logoHeight + 'px'">
+                                <div class="h-8 w-px bg-slate-200"></div>
+                                <div>
+                                    <h2 class="text-lg font-black uppercase tracking-widest text-slate-900" x-text="$store.letterhead.active.companyName || 'Company Name'"></h2>
+                                    <p class="text-[10px] text-slate-400 font-mono tracking-wider" x-text="$store.letterhead.active.tagline"></p>
+                                </div>
+                            </div>
+                            <div class="text-right text-xs text-slate-500 font-mono leading-tight shrink-0">
+                                <h3 class="font-bold text-[#3b3c95] uppercase text-xs" x-text="$store.letterhead.active.docTitle || 'DOCUMENT'"></h3>
+                                <p class="mt-1" x-show="$store.letterhead.active.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                                <p x-show="$store.letterhead.active.statementFor" x-text="'For: ' + $store.letterhead.active.statementFor"></p>
+                            </div>
+                        </div>
+
+                        <!-- Corporate Block -->
+                        <div class="bg-slate-50 rounded-xl p-5 mb-8 border border-slate-200/80" x-show="$store.letterhead.active.layout === 'corporate-block'">
+                            <div class="flex justify-between items-start">
+                                <div class="flex items-center gap-4">
+                                    <img x-show="$store.letterhead.active.logoBase64" :src="$store.letterhead.active.logoBase64" class="shrink-0" :style="'height: ' + $store.letterhead.active.logoHeight + 'px'">
+                                    <div>
+                                        <h2 class="text-xl font-extrabold text-slate-900" x-text="$store.letterhead.active.companyName || 'Company Name'"></h2>
+                                        <p class="text-xs text-slate-500" x-text="$store.letterhead.active.address"></p>
+                                    </div>
+                                </div>
+                                <div class="text-right font-mono shrink-0">
+                                    <h3 class="text-xs font-black uppercase tracking-wider text-[#3b3c95]" x-text="$store.letterhead.active.docTitle || 'DOCUMENT'"></h3>
+                                    <p class="text-[10px] text-slate-400 mt-1" x-show="$store.letterhead.active.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Asymmetric Compact -->
+                        <div class="flex items-start justify-between pb-6 mb-8 border-b-2 border-dashed border-slate-200" x-show="$store.letterhead.active.layout === 'asymmetric-compact'">
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-3">
+                                    <div x-show="!$store.letterhead.active.logoBase64" class="w-8 h-8 rounded-lg bg-[#3b3c95]/10 text-[#3b3c95] flex items-center justify-center font-black text-sm" x-text="($store.letterhead.active.companyName || 'My').trim().slice(0,2).toUpperCase()"></div>
+                                    <img x-show="$store.letterhead.active.logoBase64" :src="$store.letterhead.active.logoBase64" class="shrink-0" :style="'height: ' + $store.letterhead.active.logoHeight + 'px'">
+                                    <h2 class="text-lg font-bold text-slate-900" x-text="$store.letterhead.active.companyName || 'Company Name'"></h2>
+                                </div>
+                                <p class="text-xs text-slate-500 max-w-md pt-1" x-text="$store.letterhead.active.address"></p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <h3 class="text-sm font-extrabold uppercase text-[#3b3c95] tracking-wider" x-text="$store.letterhead.active.docTitle || 'DOCUMENT'"></h3>
+                                <div class="text-xs text-slate-500 font-mono mt-1 space-y-0.5">
+                                    <p x-show="$store.letterhead.active.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                                    <p x-show="$store.letterhead.active.statementFor" x-text="'For: ' + $store.letterhead.active.statementFor"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Compact Grid -->
+                        <div class="grid grid-cols-3 gap-6 pb-6 mb-8 border-b-2 border-slate-200 text-xs text-slate-700" x-show="$store.letterhead.active.layout === 'compact-grid'">
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-2">
+                                    <img x-show="$store.letterhead.active.logoBase64" :src="$store.letterhead.active.logoBase64" class="shrink-0" :style="'height: ' + $store.letterhead.active.logoHeight + 'px'">
+                                    <h2 class="font-bold text-slate-900" x-text="$store.letterhead.active.companyName || 'Company Name'"></h2>
+                                </div>
+                                <p class="text-[10px] text-slate-500 whitespace-pre-line leading-tight" x-text="$store.letterhead.active.address"></p>
+                            </div>
+                            <div class="border-l border-slate-200 pl-6 space-y-1 font-mono">
+                                <h3 class="font-bold uppercase text-[#3b3c95]" x-text="$store.letterhead.active.docTitle || 'DOCUMENT'"></h3>
+                                <p class="text-[10px] text-slate-500" x-show="$store.letterhead.active.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                            </div>
+                            <div class="border-l border-slate-200 pl-6 space-y-1">
+                                <p class="font-semibold text-slate-700" x-show="$store.letterhead.active.statementFor" x-text="'For: ' + $store.letterhead.active.statementFor"></p>
+                                <p class="text-[10px] text-slate-500" x-show="$store.letterhead.active.bin" x-text="'BIN: ' + $store.letterhead.active.bin"></p>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Spreadsheet records table -->
-                    <table class="doc-table" :style="'font-size: ' + computedTableFontSize + 'px'">
+                    <table class="doc-table" :style="{ 'font-size': computedTableFontSize + 'px', '--th-bg': $store.settings.thBg || undefined, '--th-text': $store.settings.thText || undefined }">
                         <thead>
                             <tr>
                                 <template x-for="col in $store.spreadsheet.headers.filter(h => h.visible)" :key="col.key">
@@ -436,6 +589,24 @@
                     <div x-show="$store.letterhead.showOnPrint && $store.letterhead.active.datePosition === 'bottom'"
                          class="mt-8 text-right text-xs font-mono text-slate-500"
                          x-text="'Date: ' + docDate()"></div>
+
+                    <!-- Dynamic Footnote Footer (Max 1 Line) -->
+                    <div x-show="$store.settings.showFooter" class="mt-6 border-t border-slate-100 pt-2 text-[10px] text-slate-400 font-mono">
+                        <!-- Simple Text Layout -->
+                        <div class="text-center" x-show="$store.settings.footerLayout === 'simple-text'" x-text="$store.settings.footerText"></div>
+
+                        <!-- Brand Accent Line Layout -->
+                        <div class="space-y-1" x-show="$store.settings.footerLayout === 'brand-accent'">
+                            <div class="h-0.5 w-full bg-[--accent] opacity-30"></div>
+                            <div class="text-center" x-text="($store.letterhead.active.companyName || 'Paper Trail') + ' · ' + $store.settings.footerText"></div>
+                        </div>
+
+                        <!-- Split Footnote Layout -->
+                        <div class="flex justify-between items-center" x-show="$store.settings.footerLayout === 'split-footnote'">
+                            <span class="font-bold" x-text="$store.letterhead.active.companyName || 'Paper Trail'"></span>
+                            <span x-text="$store.settings.footerText"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -552,14 +723,19 @@
                     this.fileName = file.name;
                     Alpine.store('spreadsheet').loadFile(file);
                 }
+                // Reset so re-selecting the SAME file later still fires @change.
+                event.target.value = '';
             },
 
             clearActiveFile() {
                 this.fileName = '';
+                this.sortCol = null;
+                this.sortDir = 'asc';
                 Alpine.store('spreadsheet').isLoaded = false;
                 Alpine.store('spreadsheet').raw = null;
                 Alpine.store('spreadsheet').headers = [];
                 Alpine.store('spreadsheet').rows = [];
+                if (this.$refs.toolInput) this.$refs.toolInput.value = '';
             },
 
             getTodayDate() {
@@ -613,7 +789,12 @@
                         currencySymbol: Alpine.store('settings') ? Alpine.store('settings').currencySymbol : '$',
                         tableFontSize: Alpine.store('settings') ? Alpine.store('settings').tableFontSize : 14,
                         showTotals: Alpine.store('settings') ? Alpine.store('settings').showTotals : false,
-                        boldLastRow: Alpine.store('settings') ? Alpine.store('settings').boldLastRow : false
+                        boldLastRow: Alpine.store('settings') ? Alpine.store('settings').boldLastRow : false,
+                        showFooter: Alpine.store('settings') ? Alpine.store('settings').showFooter : false,
+                        footerLayout: Alpine.store('settings') ? Alpine.store('settings').footerLayout : 'simple-text',
+                        footerText: Alpine.store('settings') ? Alpine.store('settings').footerText : 'Thank you for your business.',
+                        thBg: Alpine.store('settings') ? Alpine.store('settings').thBg : '',
+                        thText: Alpine.store('settings') ? Alpine.store('settings').thText : ''
                     }
                 };
 

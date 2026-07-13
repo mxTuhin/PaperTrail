@@ -13,7 +13,7 @@
     document.addEventListener('alpine:init', () => {
         Alpine.store('theme', {
             current:      localStorage.getItem('pt-theme')         || 'indigo',
-            tableStyle:   localStorage.getItem('pt-table-style')   || 'clean',
+            tableStyle:   localStorage.getItem('pt-table-style')   || 'boxed',
             orientation:  localStorage.getItem('pt-orientation')   || 'portrait',
             customAccent: localStorage.getItem('pt-custom-accent') || null,
 

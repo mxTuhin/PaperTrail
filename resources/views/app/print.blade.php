@@ -43,8 +43,8 @@
     <!-- Static Styles (Matches main design system) -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-    <!-- Client-side Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <!-- Client-side Alpine.js (self-hosted, reliable) -->
+    <script defer src="{{ asset('js/vendor/alpine.min.js') }}"></script>
 
     <style>
         /* PDF print page background must be fully white */
@@ -56,7 +56,7 @@
 
         @media print {
             @page {
-                margin: 15mm;
+                margin: 11.25mm;
             }
             .a4-print-sheet {
                 padding: 0 !important;
@@ -76,7 +76,7 @@
                 min-height: 297mm;
                 background: white;
                 margin: 2rem auto;
-                padding: 15mm;
+                padding: 11.25mm;
                 border: 1px solid var(--border);
                 border-radius: var(--radius-xs);
                 box-shadow: 0 4px 20px -8px rgba(0,0,0,0.05);
@@ -214,6 +214,112 @@
                 </div>
             </div>
 
+            <!-- 6. Layout: split-bordered -->
+            <div class="border-y-2 border-[#3b3c95] py-4 mb-8 flex justify-between items-start" x-show="letterhead.layout === 'split-bordered'">
+                <div class="space-y-1 flex items-center gap-4">
+                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                    <div>
+                        <h2 class="text-xl font-bold tracking-tight text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                        <p class="text-xs text-slate-500 whitespace-pre-line leading-relaxed" x-text="letterhead.address || 'Address information'"></p>
+                    </div>
+                </div>
+                <div class="text-right space-y-1 font-mono shrink-0">
+                    <h3 class="text-sm font-bold text-[#3b3c95] tracking-wider uppercase" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <p class="text-xs text-slate-500" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                    <p class="text-xs text-slate-500" x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
+                </div>
+            </div>
+
+            <!-- 7. Layout: editorial-column -->
+            <div class="grid grid-cols-3 gap-6 pb-6 mb-8 border-b-2 border-slate-200" x-show="letterhead.layout === 'editorial-column'">
+                <div class="col-span-2 border-r border-slate-200 pr-6 flex items-start gap-4">
+                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                    <div class="space-y-1">
+                        <h2 class="text-2xl font-extrabold tracking-tight text-slate-950 uppercase" x-text="letterhead.companyName || 'Company Name'"></h2>
+                        <p class="text-[11px] text-slate-400 italic" x-show="letterhead.tagline" x-text="letterhead.tagline"></p>
+                        <p class="text-xs text-slate-500 pt-1 whitespace-pre-line leading-normal" x-text="letterhead.address"></p>
+                    </div>
+                </div>
+                <div class="pl-2 space-y-2 text-right self-end font-mono shrink-0">
+                    <h3 class="text-sm font-black text-[#3b3c95] tracking-widest uppercase" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <div class="text-[10px] text-slate-500 space-y-0.5">
+                        <p x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                        <p x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modern Minimalist -->
+            <div class="flex items-start justify-between pb-6 mb-8 border-b border-slate-100" x-show="letterhead.layout === 'modern-minimalist'">
+                <div class="flex items-center gap-6">
+                    <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                    <div class="h-8 w-px bg-slate-200"></div>
+                    <div>
+                        <h2 class="text-lg font-black uppercase tracking-widest text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                        <p class="text-[10px] text-slate-400 font-mono tracking-wider" x-text="letterhead.tagline"></p>
+                    </div>
+                </div>
+                <div class="text-right text-xs text-slate-500 font-mono leading-tight shrink-0">
+                    <h3 class="font-bold text-[#3b3c95] uppercase text-xs" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <p class="mt-1" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                    <p x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
+                </div>
+            </div>
+
+            <!-- Corporate Block -->
+            <div class="bg-slate-50 rounded-xl p-5 mb-8 border border-slate-200/80" x-show="letterhead.layout === 'corporate-block'">
+                <div class="flex justify-between items-start">
+                    <div class="flex items-center gap-4">
+                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                        <div>
+                            <h2 class="text-xl font-extrabold text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                            <p class="text-xs text-slate-500" x-text="letterhead.address"></p>
+                        </div>
+                    </div>
+                    <div class="text-right font-mono shrink-0">
+                        <h3 class="text-xs font-black uppercase tracking-wider text-[#3b3c95]" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                        <p class="text-[10px] text-slate-400 mt-1" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asymmetric Compact -->
+            <div class="flex items-start justify-between pb-6 mb-8 border-b-2 border-dashed border-slate-200" x-show="letterhead.layout === 'asymmetric-compact'">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-3">
+                        <div x-show="!letterhead.logoBase64" class="w-8 h-8 rounded-lg bg-[#3b3c95]/10 text-[#3b3c95] flex items-center justify-center font-black text-sm" x-text="(letterhead.companyName || 'My').trim().slice(0,2).toUpperCase()"></div>
+                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                        <h2 class="text-lg font-bold text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                    </div>
+                    <p class="text-xs text-slate-500 max-w-md pt-1" x-text="letterhead.address"></p>
+                </div>
+                <div class="text-right shrink-0">
+                    <h3 class="text-sm font-extrabold uppercase text-[#3b3c95] tracking-wider" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <div class="text-xs text-slate-500 font-mono mt-1 space-y-0.5">
+                        <p x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                        <p x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compact Grid -->
+            <div class="grid grid-cols-3 gap-6 pb-6 mb-8 border-b-2 border-slate-200 text-xs text-slate-700" x-show="letterhead.layout === 'compact-grid'">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <img x-show="letterhead.logoBase64" :src="letterhead.logoBase64" class="shrink-0" :style="'height: ' + (letterhead.logoHeight || 36) + 'px'">
+                        <h2 class="font-bold text-slate-900" x-text="letterhead.companyName || 'Company Name'"></h2>
+                    </div>
+                    <p class="text-[10px] text-slate-500 whitespace-pre-line leading-tight" x-text="letterhead.address"></p>
+                </div>
+                <div class="border-l border-slate-200 pl-6 space-y-1 font-mono">
+                    <h3 class="font-bold uppercase text-[#3b3c95]" x-text="letterhead.docTitle || 'DOCUMENT'"></h3>
+                    <p class="text-[10px] text-slate-500" x-show="letterhead.datePosition === 'top'" x-text="'Date: ' + docDate()"></p>
+                </div>
+                <div class="border-l border-slate-200 pl-6 space-y-1">
+                    <p class="font-semibold text-slate-700" x-show="letterhead.statementFor" x-text="'For: ' + letterhead.statementFor"></p>
+                    <p class="text-[10px] text-slate-500" x-show="letterhead.bin" x-text="'BIN: ' + letterhead.bin"></p>
+                </div>
+            </div>
         </div>
 
         <!-- ══════════ DYNAMIC DASHBOARD SUMMARY (Step 11 dashboard widgets) ══════════ -->
@@ -266,7 +372,7 @@
         </div>
 
         <!-- Spreadsheet Records Table -->
-        <table class="doc-table" :style="'font-size: ' + computedTableFontSize + 'px'">
+        <table class="doc-table" :style="{ 'font-size': computedTableFontSize + 'px', '--th-bg': settings.thBg || undefined, '--th-text': settings.thText || undefined }">
             <thead>
                 <tr>
                     <template x-for="col in headers.filter(h => h.visible)" :key="col.key">
@@ -298,6 +404,24 @@
         <div class="mt-8 text-right text-xs font-mono text-slate-500"
              x-show="showLetterhead && letterhead.datePosition === 'bottom'"
              x-text="'Document Date: ' + docDate()"></div>
+
+        <!-- Dynamic Footnote Footer (Max 1 Line) -->
+        <div x-show="settings.showFooter" class="mt-6 border-t border-slate-100 pt-2 text-[10px] text-slate-400 font-mono">
+            <!-- Simple Text Layout -->
+            <div class="text-center" x-show="settings.footerLayout === 'simple-text'" x-text="settings.footerText"></div>
+
+            <!-- Brand Accent Line Layout -->
+            <div class="space-y-1" x-show="settings.footerLayout === 'brand-accent'">
+                <div class="h-0.5 w-full bg-[--accent] opacity-30"></div>
+                <div class="text-center" x-text="(letterhead.companyName || 'Paper Trail') + ' · ' + settings.footerText"></div>
+            </div>
+
+            <!-- Split Footnote Layout -->
+            <div class="flex justify-between items-center" x-show="settings.footerLayout === 'split-footnote'">
+                <span class="font-bold" x-text="letterhead.companyName || 'Paper Trail'"></span>
+                <span x-text="settings.footerText"></span>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -338,7 +462,7 @@
                     }
                 },
                 showLetterhead: true,
-                tableStyle: 'clean',
+                tableStyle: 'boxed',
                 orientation: 'portrait',
                 computedTableFontSize: 14,
                 dateStr: '',
@@ -348,7 +472,12 @@
                     currencySymbol: '$',
                     tableFontSize: 14,
                     showTotals: false,
-                    boldLastRow: false
+                    boldLastRow: false,
+                    showFooter: false,
+                    footerLayout: 'simple-text',
+                    footerText: 'Thank you for your business.',
+                    thBg: '',
+                    thText: ''
                 },
 
                 initPrint() {
@@ -364,7 +493,7 @@
                         this.rows = data.rows || [];
                         this.letterhead = data.letterhead || this.letterhead;
                         this.showLetterhead = data.showLetterhead !== false;
-                        this.tableStyle = data.tableStyle || 'clean';
+                        this.tableStyle = data.tableStyle || 'boxed';
                         this.dateStr = data.dateStr || new Date().toLocaleDateString('en-GB');
                         this.dashboard = data.dashboard || this.dashboard;
                         this.settings = data.settings || this.settings;
@@ -397,38 +526,6 @@
                     } catch (err) {
                         console.error('Error loading print dataset cache:', err);
                     }
-                },
-
-                getDynamicTitle() {
-                    const company = (this.letterhead.companyName || 'Paper Trail').trim();
-                    const acronym = company
-                        .split(/\s+/)
-                        .map(word => word.charAt(0))
-                        .join('')
-                        .toUpperCase();
-
-                    const docTitle = (this.letterhead.docTitle || 'Document').trim();
-
-                    let d = new Date(this.letterhead.date);
-                    if (isNaN(d.getTime())) {
-                        if (this.dateStr) {
-                            const parts = this.dateStr.split('/');
-                            if (parts.length === 3) {
-                                const day = parseInt(parts[0], 10);
-                                const month = parseInt(parts[1], 10) - 1;
-                                const year = parseInt(parts[2], 10);
-                                d = new Date(year, month, day);
-                            }
-                        }
-                    }
-                    if (isNaN(d.getTime())) {
-                        d = new Date();
-                    }
-
-                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                    const finalDate = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-
-                    return `${acronym}_${docTitle}_${finalDate}`;
                 },
 
                 toggleOrientation(value) {
@@ -466,6 +563,38 @@
 
                 docDate() {
                     return this.letterhead.date || this.dateStr;
+                },
+
+                getDynamicTitle() {
+                    const company = (this.letterhead.companyName || 'Paper Trail').trim();
+                    const acronym = company
+                        .split(/\s+/)
+                        .map(word => word.charAt(0))
+                        .join('')
+                        .toUpperCase();
+
+                    const docTitle = (this.letterhead.docTitle || 'Document').trim();
+
+                    let d = new Date(this.letterhead.date);
+                    if (isNaN(d.getTime())) {
+                        if (this.dateStr) {
+                            const parts = this.dateStr.split('/');
+                            if (parts.length === 3) {
+                                const day = parseInt(parts[0], 10);
+                                const month = parseInt(parts[1], 10) - 1;
+                                const year = parseInt(parts[2], 10);
+                                d = new Date(year, month, day);
+                            }
+                        }
+                    }
+                    if (isNaN(d.getTime())) {
+                        d = new Date();
+                    }
+
+                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    const finalDate = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+
+                    return `${acronym}_${docTitle}_${finalDate}`;
                 },
 
                 hasNumericColumns() {

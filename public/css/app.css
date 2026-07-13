@@ -205,7 +205,8 @@ body {
     text-align: left;
     white-space: nowrap;
     padding: 0.5em 0.75em;
-    color: var(--ink);
+    color: var(--th-text, var(--table-th-text, var(--ink)));
+    background-color: var(--th-bg, var(--table-th-bg, transparent));
 }
 
 .doc-table td {
@@ -223,6 +224,10 @@ body {
 }
 
 /* 1. Clean (default) */
+[data-table-style="clean"] {
+    --table-th-bg: transparent;
+    --table-th-text: var(--ink);
+}
 [data-table-style="clean"] .doc-table thead tr {
     border-bottom: 2px solid var(--border);
 }
@@ -234,6 +239,10 @@ body {
 }
 
 /* 2. Ruled */
+[data-table-style="ruled"] {
+    --table-th-bg: transparent;
+    --table-th-text: var(--ink);
+}
 [data-table-style="ruled"] .doc-table thead tr {
     border-bottom: 2px solid var(--accent-muted);
 }
@@ -248,19 +257,26 @@ body {
 }
 
 /* 3. Boxed */
+[data-table-style="boxed"] {
+    --table-th-bg: var(--surface-2);
+    --table-th-text: var(--ink);
+}
 [data-table-style="boxed"] .doc-table th,
 [data-table-style="boxed"] .doc-table td {
     border: 1px solid var(--border);
 }
 [data-table-style="boxed"] .doc-table thead th {
     border-color: var(--border-2);
-    background-color: var(--surface-2);
 }
 [data-table-style="boxed"] .doc-table tbody tr:hover td {
     background-color: var(--accent-subtle);
 }
 
 /* 4. Striped */
+[data-table-style="striped"] {
+    --table-th-bg: transparent;
+    --table-th-text: var(--ink);
+}
 [data-table-style="striped"] .doc-table thead tr {
     border-bottom: 2px solid var(--border);
 }
@@ -272,13 +288,12 @@ body {
 }
 
 /* 5. Shaded Header */
-[data-table-style="shaded-header"] .doc-table thead tr {
-    background-color: var(--accent);
-    color: var(--accent-fg);
-    border-bottom: none;
+[data-table-style="shaded-header"] {
+    --table-th-bg: var(--accent);
+    --table-th-text: var(--accent-fg);
 }
-[data-table-style="shaded-header"] .doc-table thead th {
-    color: var(--accent-fg);
+[data-table-style="shaded-header"] .doc-table thead tr {
+    border-bottom: none;
 }
 [data-table-style="shaded-header"] .doc-table tbody tr:nth-child(even) {
     background-color: var(--surface-2);
@@ -311,8 +326,7 @@ body {
     }
 
     @page {
-        size: A4 portrait;
-        margin: 12mm 15mm 15mm 15mm;
+        margin: 15mm;
     }
 
     body {

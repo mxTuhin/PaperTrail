@@ -73,9 +73,10 @@
     <script src="{{ asset('js/papertrail.js') }}"></script>
 
     <!-- Client-side libraries (loaded asynchronously from CDN) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    {{-- Self-hosted (same-origin, reliable) — avoids intermittent CDN load failures --}}
+    <script defer src="{{ asset('js/vendor/xlsx.full.min.js') }}"></script>
+    <script defer src="{{ asset('js/vendor/sortable.min.js') }}"></script>
+    <script defer src="{{ asset('js/vendor/alpine.min.js') }}"></script>
 
     @stack('head')
 </head>
