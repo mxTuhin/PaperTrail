@@ -63,16 +63,23 @@
             </section>
 
             <section class="space-y-3 border-t border-slate-100 pt-6">
-                <h2 class="text-base font-bold tracking-tight text-[#141428] uppercase font-mono text-xs tracking-wider">3. Local Storage Usage</h2>
+                <h2 class="text-base font-bold tracking-tight text-[#141428] uppercase font-mono text-xs tracking-wider">3. Google Analytics</h2>
+                <p class="text-xs sm:text-sm text-[#454570] leading-relaxed">
+                    We use <strong>Google Analytics</strong>, a web analytics service provided by Google LLC, to understand aggregate, anonymous traffic patterns — such as page views, approximate region, browser type, and referral sources. This helps us improve the tool's usability and performance. Google Analytics may set its own cookies or identifiers in your browser and process the data described above on Google's servers. Importantly, <strong>your spreadsheet files and their contents are never shared with Google Analytics or any third party</strong> — analytics only measures how the site itself is used, not the documents you format. You can opt out using Google's <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="text-[#3b3c95] hover:underline font-semibold">browser opt-out add-on</a>, and Google's handling of this data is governed by the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-[#3b3c95] hover:underline font-semibold">Google Privacy Policy</a>.
+                </p>
+            </section>
+
+            <section class="space-y-3 border-t border-slate-100 pt-6">
+                <h2 class="text-base font-bold tracking-tight text-[#141428] uppercase font-mono text-xs tracking-wider">4. Local Storage Usage</h2>
                 <p class="text-xs sm:text-sm text-[#454570] leading-relaxed">
                     We do not store cookies on your machine. Instead, we use the browser's native <strong>localStorage</strong> API to save layout presets, visual theme preferences, table grid styles, and company letterhead input fields. This information remains local to your device and is never sent to our database.
                 </p>
             </section>
 
             <section class="space-y-3 border-t border-slate-100 pt-6">
-                <h2 class="text-base font-bold tracking-tight text-[#141428] uppercase font-mono text-xs tracking-wider">4. Contact Information</h2>
+                <h2 class="text-base font-bold tracking-tight text-[#141428] uppercase font-mono text-xs tracking-wider">5. Open Source & Contact</h2>
                 <p class="text-xs sm:text-sm text-[#454570] leading-relaxed">
-                    If you have questions about our client-side architecture or privacy implementations, contact us directly.
+                    PaperTrail's source code is publicly available on GitHub at <a href="https://github.com/mxTuhin/PaperTrail" target="_blank" rel="noopener noreferrer" class="text-[#3b3c95] hover:underline font-semibold">github.com/mxTuhin/PaperTrail</a>, where you can review exactly how your data is handled or open an issue. If you have questions about our client-side architecture or privacy implementations, contact us directly.
                 </p>
             </section>
         </div>

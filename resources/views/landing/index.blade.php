@@ -109,8 +109,11 @@
                     Live Demo
                 </a>
                 <a href="{{ route('app') }}" class="group inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-widest text-[#0f0f1d] hover:text-indigo-600 transition-colors duration-150 font-bold">
-                    Workspace 
+                    Workspace
                     <span class="inline-block transform group-hover:translate-x-0.5 transition-transform duration-150">→</span>
+                </a>
+                <a href="https://github.com/mxTuhin/PaperTrail" target="_blank" rel="noopener noreferrer" aria-label="View PaperTrail on GitHub" title="View PaperTrail on GitHub" class="group inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3.5 py-2 shadow-sm hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">
+                    <img src="{{ asset('images/github-logo-black.png') }}" alt="GitHub" class="h-4 w-auto opacity-90 group-hover:opacity-100 transition-opacity duration-150">
                 </a>
             </div>
         </div>
@@ -539,8 +542,8 @@
                 // #INV-1002,Rahman & Sons,Bangladesh,18200.00,Pending,2026-05-14
                 // #INV-1003,Vertex Global,Germany,31000.00,Overdue,2026-05-15
                 // #INV-1004,Zenith Media,United Kingdom,12500.00,Paid,2026-05-18
-                // #INV-1005,Beximco Pharm,Bangladesh,65000.00,Pending,2026-05-20
-                const base64Csv = 'SW52b2ljZSBJRCxDbGllbnQsQ291bnRyeSxCYWxhbmNlIER1ZSxTdGF0dXMsRGF0ZQojSU5WLTEwMDEsUGlubmFjbGUgR3JvdXAsVW5pdGVkIFN0YXRlcyw0MjUwMC4wMCxQYWlkLDIwMjYtMDUtMTIKI0lOVi0xMDAyLFJhaG1hbiAmIFNvbnMsQmFuZ2xhZGVzaCwxODIwMC4wMCxQZW5kaW5nLDIwMjYtMDUtMTQKI0lOVi0xMDAzLFZlcnRleCBHbG9iYWwsR2VybWFueSwzMTAwMC4wMCxPdmVyZHVlLDIwMjYtMDUtMTUKI0lOVi0xMDA0LFplbml0aCBNZWRpYSxVbml0ZWQgS2luZ2RvbSwxMjUwMC4wMCxQYWlkLDIwMjYtMDUtMTgKI0lOVi0xMDA1LEJleGltY28gUGhhcm0sQmFuZ2xhZGVzaCw2NTAwMC4wMCxQZW5kaW5nLDIwMjYtMDUtMjA=';
+                // #INV-1005,Star Pharma,Bangladesh,65000.00,Pending,2026-05-20
+                const base64Csv = 'SW52b2ljZSBJRCxDbGllbnQsQ291bnRyeSxCYWxhbmNlIER1ZSxTdGF0dXMsRGF0ZQojSU5WLTEwMDEsUGlubmFjbGUgR3JvdXAsVW5pdGVkIFN0YXRlcyw0MjUwMC4wMCxQYWlkLDIwMjYtMDUtMTIKI0lOVi0xMDAyLFJhaG1hbiAmIFNvbnMsQmFuZ2xhZGVzaCwxODIwMC4wMCxQZW5kaW5nLDIwMjYtMDUtMTQKI0lOVi0xMDAzLFZlcnRleCBHbG9iYWwsR2VybWFueSwzMTAwMC4wMCxPdmVyZHVlLDIwMjYtMDUtMTUKI0lOVi0xMDA0LFplbml0aCBNZWRpYSxVbml0ZWQgS2luZ2RvbSwxMjUwMC4wMCxQYWlkLDIwMjYtMDUtMTgKI0lOVi0xMDA1LFN0YXIgUGhhcm1hLEJhbmdsYWRlc2gsNjUwMDAuMDAsUGVuZGluZywyMDI2LTA1LTIw';
                 
                 try {
                     sessionStorage.setItem('pt_pending_file', base64Csv);
@@ -599,7 +602,7 @@
                     return [
                         { id: '#INV-0042', client: 'Nova Trading', amount: '৳ 24,500.00' },
                         { id: '#INV-0043', client: 'Rahman Brothers', amount: '৳ 18,300.00' },
-                        { id: '#INV-0044', client: 'Beximco Corp', amount: '৳ 45,000.00' }
+                        { id: '#INV-0044', client: 'Kazi Corporation', amount: '৳ 45,000.00' }
                     ];
                 }
                 if (this.activeData === 'billing') {
